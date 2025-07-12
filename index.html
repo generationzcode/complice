@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compliance Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Serif&family=Libre+Baskerville&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: 'Libre Baskerville', serif;
+      background-color: #fdfcf8;
+      color: #111;
+      overflow-x: hidden;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    h1, h2, h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      margin-bottom: 0.2em;
+    }
+    a {
+      color: #111;
+      text-decoration: none;
+      border-bottom: 1px solid #111;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      background-color: #111;
+      color: #fff;
+    }
+    nav a {
+      font-family: 'IBM Plex Mono', monospace;
+      margin-right: 20px;
+      font-size: 14px;
+      color: #fff;
+      border-bottom: none;
+    }
+    .header {
+      position: relative;
+      padding: 40px 30px;
+      background: #d0e6ff;
+      text-align: center;
+      overflow: hidden;
+      min-height: 40vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .header h1 {
+      font-size: 2.5em;
+      text-transform: none;
+      line-height: 1.2;
+      color: #111;
+      margin: 0;
+      z-index: 2;
+      position: relative;
+    }
+    .header::before {
+      content: "";
+      background: url('hero-bg.svg') center center / cover no-repeat;
+      opacity: 0.08;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 1;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 0;
+    }
+    .product {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 80vh;
+      padding: 60px;
+      position: relative;
+      background-blend-mode: multiply;
+    }
+    .product h2 {
+      font-size: 2.2em;
+      margin-bottom: 0.5em;
+    }
+    .product:nth-child(1) {
+      background-color: #e8f9f0;
+    }
+    .product:nth-child(2) {
+      background-color: #fffbe6;
+    }
+    .product:nth-child(3) {
+      background-color: #ffeaea;
+    }
+    .product p {
+      max-width: 500px;
+      font-size: 1.1em;
+    }
+    .autofill-overlay {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 300px;
+      transform: rotate(-5deg);
+      z-index: 0;
+    }
+    .eway-overlay {
+      position: absolute;
+      bottom: 0px;
+      left: 20px;
+      width: 320px;
+      transform: rotate(4deg);
+      z-index: 0;
+    }
+    .chatbot-overlay {
+      position: absolute;
+      bottom: 0px;
+      left: 20px;
+      width: 320px;
+      transform: rotate(4deg);
+      z-index: 0;
+    }
+    .product:nth-child(2) *,
+    .product:nth-child(3) * {
+      position: relative;
+      z-index: 1;
+    }
+    footer {
+      font-size: 0.85em;
+      padding: 20px;
+      text-align: center;
+      background: #111;
+      color: #fff;
+    }
+    footer a {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <nav>
+      <div><a href="index.html">Home</a></div>
+      <div>
+        <a href="chatbot.html">Chatbot</a>
+        <a href="pdf-tool.html">Autofiller</a>
+        <a href="eway-assistant.html">EWB Assistant</a>
+      </div>
+    </nav>
+
+    <header class="header">
+      <h1>Automate compliance.<br>Kill the paperwork.</h1>
+    </header>
+
+    <div class="grid">
+      <section class="product">
+                <img src="chatbot.svg" class="chatbot-overlay" alt="Autofill Illustration" />
+
+        <h2>Compliance Chatbot</h2>
+        <p>Ask. File. Follow up.</p>
+        <p><a href="chatbot.html">Learn more</a></p>
+      </section>
+
+      <section class="product">
+        <img src="autofill.svg" class="autofill-overlay" alt="Autofill Illustration" />
+        <h2>Form PDF Population</h2>
+        <p>Upload Forms. Get Autofilled PDFs</p>
+        <p><a href="pdf-tool.html">Learn more</a></p>
+      </section>
+
+      <section class="product">
+        <h2>EWB Assistant</h2>
+        <p>Invoices in, E-Way Bills out</p>
+        <p><a href="eway-assistant.html">Learn more</a></p>
+        <img src="eway.svg" class="eway-overlay" alt="EWB Illustration" />
+      </section>
+    </div>
+
+    <footer>
+      <p>Ecopatch LLP</p>
+      <p><a href="mailto:contact@yourdomain.com">contact@yourdomain.com</a></p>
+    </footer>
+  </main>
+</body>
+</html>

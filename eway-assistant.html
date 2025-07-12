@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EWB Assistant - Compliance Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Serif&family=Libre+Baskerville&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: 'Libre Baskerville', serif;
+      background-color: #fdfcf8;
+      color: #111;
+      overflow-x: hidden;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    h1, h2, h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      margin-bottom: 0.2em;
+    }
+    a {
+      color: #111;
+      text-decoration: none;
+      border-bottom: 1px solid #111;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      background-color: #111;
+      color: #fff;
+    }
+    nav a {
+      font-family: 'IBM Plex Mono', monospace;
+      margin-right: 20px;
+      font-size: 14px;
+      color: #fff;
+      border-bottom: none;
+    }
+    .header {
+      position: relative;
+      padding: 40px 30px;
+      background: #d0e6ff;
+      text-align: center;
+      overflow: hidden;
+      min-height: 40vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .header h1 {
+      font-size: 2.5em;
+      text-transform: none;
+      line-height: 1.2;
+      color: #111;
+      margin: 0;
+      z-index: 2;
+      position: relative;
+    }
+    .header::before {
+      content: "";
+      background: url('eway.svg') center center / contain no-repeat; /* Use contain for sizing */
+      opacity: 0.08;
+      position: absolute;
+      /* Position and transform for the slanted, non-interfering effect */
+      width: 320px; /* Adjust size as needed */
+      height: 320px; /* Adjust size as needed */
+      bottom: 0px; /* Aligned to the bottom, similar to index */
+      left: 20px; /* Aligned to the left, similar to index */
+      transform: rotate(4deg); /* Rotate */
+      z-index: 1;
+    }
+    .product-detail {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 30px;
+      text-align: center;
+      flex: 1;
+    }
+    .product-detail h2 {
+      font-size: 2.5em;
+      margin-bottom: 0.5em;
+      color: #111;
+    }
+    .product-detail p {
+      max-width: 700px;
+      font-size: 1.2em;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+    .product-detail img {
+      max-width: 80%;
+      height: auto;
+      border: 1px solid #ccc;
+      box-shadow: 5px 5px 0px #aaa;
+      margin-top: 20px;
+    }
+    footer {
+      font-size: 0.85em;
+      padding: 20px;
+      text-align: center;
+      background: #111;
+      color: #fff;
+      margin-top: auto;
+    }
+    footer a {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <nav>
+      <div><a href="index.html">Home</a></div>
+      <div>
+        <a href="chatbot.html">Chatbot</a>
+        <a href="pdf-tool.html">Autofiller</a>
+        <a href="eway-assistant.html">EWB Assistant</a>
+      </div>
+    </nav>
+
+    <header class="header">
+      <h1>EWB Assistant</h1>
+    </header>
+
+    <section class="product-detail">
+      <h2>Generate E-Way Bills with Ease</h2>
+      <p>Say goodbye to manual E-Way Bill generation. Our EWB Assistant takes your invoice data and automatically generates compliant E-Way Bills. This tool ensures accuracy and speeds up your logistics process, reducing potential delays and penalties. Focus on your business, and let us handle the E-Way Bills.</p>
+      <img src="screencap.png" alt="Screenshot of E-Way Bill Assistant Interface" />
+    </section>
+
+    <footer>
+      <p>Ecopatch LLP</p>
+      <p><a href="mailto:contact@yourdomain.com">contact@yourdomain.com</a></p>
+    </footer>
+  </main>
+</body>
+</html>
