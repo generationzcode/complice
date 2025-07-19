@@ -54,7 +54,7 @@
       background: #d0e6ff;
       text-align: center;
       overflow: hidden;
-      min-height: 40vh;
+      min-height: 20vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -75,7 +75,7 @@
       position: absolute;
       /* Position and transform for the slanted, non-interfering effect */
       width: 300px; /* Adjust size as needed */
-      height: 300px; /* Adjust size as needed */
+      height: 150px; /* Adjust size as needed */
       top: 50%;
       right: 20px; /* Aligned to the right, similar to index */
       transform: translateY(-50%) rotate(-5deg); /* Vertically center and rotate */
@@ -126,19 +126,67 @@
       <div><a href="index.html">Home</a></div>
       <div>
         <a href="chatbot.html">Chatbot</a>
-        <a href="pdf-tool.html">Form Automation</a>
+        <a href="pdf-tool.html">Complice</a>
         <a href="eway-assistant.html">EWB Assistant</a>
       </div>
     </nav>
 
     <header class="header">
-      <h1>Form PDF Population</h1>
+      <h1>Complice</h1>
     </header>
 
     <section class="product-detail">
-      <h2>Automate Your Form Filling</h2>
-      <p>Tired of manually filling out PDFs? Our Form PDF Population tool takes your PDF form and automatically populates it. Simply upload your blank form, and receive a perfectly filled-out PDF based on information from your document vault. Save time, reduce errors, and focus on what matters most.</p>
-      <img src="autofiller-dashboard.jpg" alt="Screenshot of PDF Autofiller Interface" />
+      <h2>An AI <span class="highlight">Compliance Copilot</span></h2>
+      <p>Tired of manually filling out forms? Tracking deadlines? Having to read through complex regulatory documents? Our compliance copilot autofills your form PDFs, gives reminders for deadlines and provides a knowledgeable compliance assistant to query about regulations.
+      </p>      
+      <h3 class="get-started-subheading highlight">Get Started</h3>
+      <style>
+        .highlight{
+          background-color: #d8d400;
+          padding: 5px;
+          color: #222;
+          font-weight: bold;
+          font-family: 'IBM Plex Mono', monospace;
+        }
+        .get-started-subheading {
+          font-size: 1.5em;
+          font-family: 'IBM Plex Mono', monospace;
+          font-weight: 400;
+          padding: 5px;
+          color: #222;
+          margin-bottom: 18px;
+          letter-spacing: 0.01em;
+        }
+      </style>
+      <ul class="steps-list">
+        <li>Upload your company documents to the document vault.</li>
+        <li>Click on "My Forms" to get a curated list of forms that you can autofill.</li>
+        <li>Click on the form to autofill it, change any fields that haven't been filled out correctly, and then download the form as a PDF.</li>
+        <li>Use the copilot to remind you when next to fill out the form.</li>
+      </ul>
+      <style>
+        .steps-list {
+          max-width: 700px;
+          margin: 0 auto 40px auto;
+          padding-left: 1.2em;
+          font-size: 1.2em;
+          line-height: 1.6;
+          text-align: left;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .steps-list li {
+                    padding-left: 4px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        .steps-list li:last-child {
+          margin-bottom: 0;
+        }
+      </style>
+      <img src="autofiller-dashboard.jpg" alt="Autofill Illustration" />
+      <p>To get a demo, contact us at <span class="highlight">+91 9830017299</span></p>
     </section>
 
     <footer>
