@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecopatch Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F4EFE4;--cream-2:#EDE6D4;--ink:#181815;--ink-mid:#62615D;--ink-faint:rgba(24,24,21,0.1);--a:#4A2213;--at:#F2EBE7;--serif:'Cormorant',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);cursor:none;overflow-x:hidden;}
+.cur{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;}
+#cd{width:5px;height:5px;background:var(--ink);transform:translate(-50%,-50%);}
+#cr{width:28px;height:28px;border:1px solid rgba(24,24,21,0.18);transform:translate(-50%,-50%);transition:width .25s,height .25s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 52px;background:var(--cream);border-bottom:1px solid var(--ink-faint);}
+.logo{font-family:var(--serif);font-size:19px;font-weight:500;text-decoration:none;color:var(--ink);letter-spacing:.02em;}
+.logo em{font-style:italic;font-weight:300;}
+.wing-pill{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:var(--a);color:var(--cream);padding:3px 9px;}
+.nav-links{display:flex;gap:22px;list-style:none;}
+.nav-links a{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color .2s;}
+.nav-links a:hover,.nav-links a.on{color:var(--ink);}
+.hero{min-height:56vh;padding:120px 52px 64px;background:var(--at);border-bottom:1px solid var(--ink-faint);display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:80px;}
+.hero-h1{font-family:var(--serif);font-size:clamp(48px,5.5vw,72px);font-weight:300;line-height:1.02;letter-spacing:-.015em;}
+.hero-h1 em{font-style:italic;color:var(--a);}
+.hero-body{font-size:14px;font-weight:300;color:var(--ink-mid);line-height:1.9;max-width:460px;}
+.grid-section{padding:56px 52px 72px;border-bottom:1px solid var(--ink-faint);}
+.grid-label{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mid);opacity:.55;margin-bottom:32px;}
+.sample-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:var(--at);border:1px solid rgba(74,34,19,0.1);aspect-ratio:4/3;display:flex;flex-direction:column;overflow:hidden;cursor:pointer;transition:border-color .2s;}
+.sc:hover{border-color:var(--a);}
+.sc svg{width:100%;height:100%;display:block;flex:1;}
+.sc-title{padding:8px 10px;font-size:9px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--a);border-top:1px solid rgba(74,34,19,0.1);background:var(--cream);flex-shrink:0;}
+.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(24,24,21,0.88);align-items:center;justify-content:center;}
+.modal.open{display:flex;}
+.modal-inner{background:var(--cream);max-width:680px;width:90%;max-height:88vh;overflow:auto;position:relative;}
+.modal-close{position:absolute;top:16px;right:18px;font-size:18px;cursor:pointer;color:var(--ink-mid);background:none;border:none;}
+.modal-svg-wrap{padding:32px;}
+.modal-svg-wrap svg{width:100%;max-height:440px;}
+.modal-meta{padding:0 32px 28px;}
+.modal-title{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:6px;}
+.modal-tag{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--a);}
+.engage{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ink-faint);}
+.eng-l{padding:56px 52px;background:var(--a);}
+.eng-l h2{font-family:var(--serif);font-size:40px;font-weight:300;color:var(--cream);line-height:1.05;margin-bottom:18px;}
+.eng-l h2 em{font-style:italic;}
+.eng-l p{font-size:13px;font-weight:300;color:rgba(244,239,228,.6);line-height:1.85;margin-bottom:28px;max-width:360px;}
+.btn-c{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--a);background:var(--cream);padding:11px 22px;}
+.eng-r{padding:56px 52px;}
+.faq-label{font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mid);opacity:.45;margin-bottom:20px;}
+.faq{padding:13px 0;border-bottom:1px solid var(--ink-faint);}
+.faq:last-child{border-bottom:none;}
+.faq q{font-size:13px;font-weight:400;color:var(--ink);display:block;margin-bottom:5px;quotes:none;}
+.faq p{font-size:12px;font-weight:300;color:var(--ink-mid);line-height:1.7;}
+footer{background:var(--ink);padding:26px 52px;display:flex;align-items:center;justify-content:space-between;}
+.fl{font-family:var(--serif);font-size:15px;color:rgba(244,239,228,.7);}
+.fn{display:flex;gap:20px;list-style:none;}
+.fn a{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(244,239,228,.28);text-decoration:none;transition:color .2s;}
+.fn a:hover{color:rgba(244,239,228,.6);}
+.fr{font-size:10px;color:rgba(244,239,228,.2);}
+.fi{opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease;}
+.fi.v{opacity:1;transform:translateY(0);}
+
+/* DEEPTECH WEBSITES */
+.web-section{border-top:1px solid var(--ink-faint);border-bottom:1px solid var(--ink-faint);}
+.web-inner{display:grid;grid-template-columns:1fr 1fr;min-height:480px;}
+.web-l{padding:64px 52px;background:var(--ink);display:flex;flex-direction:column;justify-content:space-between;}
+.web-l-top{}
+.web-kicker{font-size:9px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--a);background:rgba(58,74,28,.18);display:inline-block;padding:3px 9px;margin-bottom:22px;}
+.web-l h2{font-family:var(--serif);font-size:44px;font-weight:300;color:var(--cream);line-height:1.02;letter-spacing:-.02em;margin-bottom:20px;}
+.web-l h2 em{font-style:italic;}
+.web-l p{font-size:13px;font-weight:300;color:rgba(244,239,228,.55);line-height:1.9;max-width:380px;margin-bottom:28px;}
+.web-types{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.web-type{display:flex;align-items:flex-start;gap:12px;}
+.web-type-dot{width:4px;height:4px;border-radius:50%;background:var(--a);margin-top:7px;flex-shrink:0;}
+.web-type-text{font-size:12px;font-weight:300;color:rgba(244,239,228,.5);line-height:1.7;}
+.web-type-text strong{color:rgba(244,239,228,.75);font-weight:400;}
+.web-note{font-size:10px;font-weight:300;color:rgba(244,239,228,.25);line-height:1.7;border-top:1px solid rgba(244,239,228,.08);padding-top:18px;max-width:360px;}
+.btn-w{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:var(--cream);padding:11px 22px;margin-top:4px;}
+.web-r{background:var(--at);display:flex;align-items:center;justify-content:center;padding:40px;}
+.web-r svg{width:100%;max-width:480px;height:auto;}
+</style>
+</head>
+<body>
+<div class="cur" id="cd"></div><div class="cur" id="cr"></div>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <a href="index.html" class="logo">Eco<em>patch</em></a>
+    <span class="wing-pill">Studio</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="research.html">Research</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="build.html">Build</a></li>
+    <li><a href="studio.html" class="on">Studio</a></li>
+    <li><a href="kids.html">Kids</a></li>
+    <li><a href="mailto:hello@ecopatch.in">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1 class="hero-h1">Science<br>communicated<br><em>properly.</em></h1>
+  </div>
+  <div>
+    <p class="hero-body">We produce scientific communication for companies, research institutions, and research teams — illustrations, briefs, figures, reports, education content, and websites for deeptech science companies. Accuracy is non-negotiable. We work from the science directly, not around it.</p>
+  </div>
+</section>
+
+<section class="grid-section fi">
+  <p class="grid-label">Studio work — sample outputs</p>
+  <div class="sample-grid">
+
+    <div class="sc" data-title="Illustrated science brief — agritech" data-tag="Science communication · Agritech · Document design">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F2EBE7"/>
+        <rect x="40" y="22" width="130" height="225" rx="2" fill="white" opacity="0.75" stroke="#4A2213" stroke-width="0.4"/>
+        <rect x="40" y="22" width="130" height="34" rx="2" fill="#4A2213" opacity="0.75"/>
+        <text x="105" y="41" font-family="sans-serif" font-size="8" fill="white" text-anchor="middle" opacity="0.85">SCIENCE BRIEF</text>
+        <text x="105" y="52" font-family="sans-serif" font-size="6" fill="white" text-anchor="middle" opacity="0.55">Agri biotech · input systems</text>
+        <rect x="50" y="64" width="110" height="3.5" rx="1" fill="#4A2213" opacity="0.2"/>
+        <rect x="50" y="71" width="90" height="3.5" rx="1" fill="#4A2213" opacity="0.14"/>
+        <rect x="50" y="78" width="100" height="3.5" rx="1" fill="#4A2213" opacity="0.14"/>
+        <rect x="50" y="88" width="110" height="38" rx="2" fill="#4A2213" opacity="0.05" stroke="#4A2213" stroke-width="0.3"/>
+        <!-- Mini figure in box -->
+        <line x1="68" y1="120" x2="68" y2="98" stroke="#4A2213" stroke-width="1.2" opacity="0.4"/>
+        <path d="M 58 105 Q 63 100 68 103" fill="none" stroke="#4A2213" stroke-width="0.8" opacity="0.4"/>
+        <path d="M 78 102 Q 73 97 68 101" fill="none" stroke="#4A2213" stroke-width="0.8" opacity="0.4"/>
+        <line x1="68" y1="120" x2="58" y2="130" stroke="#4A2213" stroke-width="0.6" opacity="0.3"/>
+        <line x1="68" y1="120" x2="78" y2="132" stroke="#4A2213" stroke-width="0.6" opacity="0.3"/>
+        <text x="105" y="101" font-family="sans-serif" font-size="5.5" fill="#4A2213" text-anchor="middle" opacity="0.5">Fig. 1 — root system</text>
+        <rect x="50" y="135" width="110" height="3" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="50" y="141" width="95" height="3" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="50" y="147" width="105" height="3" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="50" y="153" width="80" height="3" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="50" y="163" width="3" height="38" fill="#4A2213" opacity="0.55"/>
+        <rect x="56" y="165" width="100" height="3" rx="1" fill="#4A2213" opacity="0.18"/>
+        <rect x="56" y="172" width="106" height="3" rx="1" fill="#4A2213" opacity="0.18"/>
+        <rect x="56" y="179" width="88" height="3" rx="1" fill="#4A2213" opacity="0.18"/>
+        <rect x="56" y="186" width="98" height="3" rx="1" fill="#4A2213" opacity="0.18"/>
+        <rect x="50" y="210" width="110" height="3" rx="1" fill="#4A2213" opacity="0.08"/>
+        <rect x="50" y="217" width="85" height="3" rx="1" fill="#4A2213" opacity="0.08"/>
+        <!-- Second doc -->
+        <rect x="190" y="22" width="130" height="225" rx="2" fill="white" opacity="0.75" stroke="#4A2213" stroke-width="0.4"/>
+        <rect x="198" y="30" width="114" height="3.5" rx="1" fill="#4A2213" opacity="0.14"/>
+        <rect x="198" y="37" width="95" height="3.5" rx="1" fill="#4A2213" opacity="0.1"/>
+        <!-- Data chart in second doc -->
+        <rect x="198" y="48" width="114" height="62" rx="2" fill="#4A2213" opacity="0.04" stroke="#4A2213" stroke-width="0.3"/>
+        <line x1="204" y1="104" x2="204" y2="54" stroke="#4A2213" stroke-width="0.4" opacity="0.2"/>
+        <line x1="204" y1="104" x2="306" y2="104" stroke="#4A2213" stroke-width="0.4" opacity="0.2"/>
+        <polyline points="212,100 226,88 242,74 258,78 274,62 290,58 305,57" fill="none" stroke="#4A2213" stroke-width="1.2" opacity="0.55"/>
+        <text x="255" y="115" font-family="sans-serif" font-size="5.5" fill="#4A2213" text-anchor="middle" opacity="0.4">data viz — yield response</text>
+        <rect x="198" y="122" width="114" height="3.5" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="198" y="129" width="95" height="3.5" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="198" y="136" width="108" height="3.5" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="198" y="150" width="114" height="3.5" rx="1" fill="#4A2213" opacity="0.08"/>
+        <rect x="198" y="157" width="80" height="3.5" rx="1" fill="#4A2213" opacity="0.08"/>
+        <rect x="198" y="170" width="114" height="52" rx="2" fill="#4A2213" opacity="0.04" stroke="#4A2213" stroke-width="0.3"/>
+        <!-- Small mechanism illustration -->
+        <circle cx="225" cy="196" r="10" fill="#4A2213" opacity="0.08" stroke="#4A2213" stroke-width="0.4"/>
+        <circle cx="255" cy="196" r="10" fill="#4A2213" opacity="0.08" stroke="#4A2213" stroke-width="0.4"/>
+        <line x1="235" y1="196" x2="245" y2="196" stroke="#4A2213" stroke-width="0.6" opacity="0.3"/>
+        <text x="255" y="230" font-family="sans-serif" font-size="5.5" fill="#4A2213" text-anchor="middle" opacity="0.4">Fig. 2 — mechanism</text>
+        <rect x="198" y="235" width="114" height="3" rx="1" fill="#4A2213" opacity="0.07"/>
+      </svg>
+      <div class="sc-title">Illustrated brief — agritech</div>
+    </div>
+
+    <div class="sc" data-title="Scientific figure — fermentation mechanism" data-tag="Science communication · Figure design · Bioprocessing">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F2EBE7"/>
+        <text x="180" y="18" font-family="sans-serif" font-size="8" fill="#4A2213" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">FIGURE — FERMENTATION MECHANISM</text>
+        <!-- Panel A -->
+        <rect x="18" y="26" width="152" height="120" rx="2" fill="white" opacity="0.6" stroke="#4A2213" stroke-width="0.4"/>
+        <text x="28" y="40" font-family="sans-serif" font-size="7.5" fill="#4A2213" opacity="0.6" font-weight="500">A</text>
+        <text x="38" y="40" font-family="sans-serif" font-size="6.5" fill="#4A2213" opacity="0.4">Cell metabolic overview</text>
+        <!-- Cell illustration -->
+        <ellipse cx="95" cy="90" rx="52" ry="40" fill="#4A2213" opacity="0.06" stroke="#4A2213" stroke-width="0.8"/>
+        <ellipse cx="95" cy="88" rx="16" ry="12" fill="#4A2213" opacity="0.18"/>
+        <!-- Metabolic arrows inside cell -->
+        <path d="M 55 82 Q 75 72 90 78" fill="none" stroke="#4A2213" stroke-width="0.7" opacity="0.4"/>
+        <path d="M 100 100 Q 118 108 135 100" fill="none" stroke="#4A2213" stroke-width="0.7" opacity="0.4"/>
+        <!-- Labels -->
+        <text x="48" y="78" font-family="sans-serif" font-size="5.5" fill="#4A2213" opacity="0.5">glucose</text>
+        <text x="130" y="108" font-family="sans-serif" font-size="5.5" fill="#4A2213" opacity="0.5">EtOH</text>
+        <text x="95" y="138" font-family="sans-serif" font-size="6" fill="#4A2213" text-anchor="middle" opacity="0.4">yeast cell</text>
+        <!-- Panel B -->
+        <rect x="190" y="26" width="152" height="120" rx="2" fill="white" opacity="0.6" stroke="#4A2213" stroke-width="0.4"/>
+        <text x="200" y="40" font-family="sans-serif" font-size="7.5" fill="#4A2213" opacity="0.6" font-weight="500">B</text>
+        <text x="210" y="40" font-family="sans-serif" font-size="6.5" fill="#4A2213" opacity="0.4">pH and temperature effects</text>
+        <!-- Chart -->
+        <line x1="205" y1="48" x2="205" y2="136" stroke="#4A2213" stroke-width="0.4" opacity="0.2"/>
+        <line x1="205" y1="136" x2="333" y2="136" stroke="#4A2213" stroke-width="0.4" opacity="0.2"/>
+        <polyline points="212,130 226,118 242,100 258,88 272,84 286,88 300,98 314,112 326,128" fill="none" stroke="#4A2213" stroke-width="1.2" opacity="0.55"/>
+        <text x="268" y="78" font-family="sans-serif" font-size="6" fill="#4A2213" opacity="0.5" text-anchor="middle">optimum</text>
+        <line x1="272" y1="82" x2="272" y2="134" stroke="#4A2213" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.3"/>
+        <!-- Panel C — wide -->
+        <rect x="18" y="155" width="324" height="100" rx="2" fill="white" opacity="0.6" stroke="#4A2213" stroke-width="0.4"/>
+        <text x="28" y="170" font-family="sans-serif" font-size="7.5" fill="#4A2213" opacity="0.6" font-weight="500">C</text>
+        <text x="38" y="170" font-family="sans-serif" font-size="6.5" fill="#4A2213" opacity="0.4">Process timeline — batch fermentation</text>
+        <!-- Timeline -->
+        <line x1="30" y1="210" x2="332" y2="210" stroke="#4A2213" stroke-width="0.5" opacity="0.2"/>
+        <!-- Growth bars by phase -->
+        <rect x="34" y="182" width="60" height="28" rx="1" fill="#4A2213" opacity="0.08"/>
+        <text x="64" y="222" font-family="sans-serif" font-size="6" fill="#4A2213" text-anchor="middle" opacity="0.4">lag</text>
+        <rect x="98" y="170" width="90" height="40" rx="1" fill="#4A2213" opacity="0.18"/>
+        <text x="143" y="222" font-family="sans-serif" font-size="6" fill="#4A2213" text-anchor="middle" opacity="0.5">exponential</text>
+        <rect x="192" y="165" width="80" height="45" rx="1" fill="#4A2213" opacity="0.12"/>
+        <text x="232" y="222" font-family="sans-serif" font-size="6" fill="#4A2213" text-anchor="middle" opacity="0.4">stationary</text>
+        <rect x="276" y="175" width="52" height="35" rx="1" fill="#4A2213" opacity="0.07"/>
+        <text x="302" y="222" font-family="sans-serif" font-size="6" fill="#4A2213" text-anchor="middle" opacity="0.35">decline</text>
+        <text x="180" y="245" font-family="sans-serif" font-size="7" fill="#4A2213" text-anchor="middle" opacity="0.4">Scientific figure — fermentation mechanism · journal-ready</text>
+      </svg>
+      <div class="sc-title">Scientific figure — fermentation</div>
+    </div>
+
+    <div class="sc" data-title="Food tech company — product science brief" data-tag="Science communication · Food tech · Industry brief">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F2EBE7"/>
+        <text x="180" y="18" font-family="sans-serif" font-size="8" fill="#4A2213" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">PRODUCT SCIENCE BRIEF — FOOD TECH</text>
+        <!-- Cover-style layout -->
+        <rect x="80" y="26" width="200" height="218" rx="3" fill="white" opacity="0.72" stroke="#4A2213" stroke-width="0.4"/>
+        <!-- Cover image area -->
+        <rect x="80" y="26" width="200" height="90" rx="3" fill="#4A2213" opacity="0.12"/>
+        <!-- Stylised spirulina in header -->
+        <path d="M 92 70 Q 105 58 118 70 Q 131 82 144 70 Q 157 58 170 70 Q 183 82 196 70 Q 209 58 222 70 Q 235 82 248 70 Q 261 58 272 70" fill="none" stroke="#4A2213" stroke-width="3.5" opacity="0.45" stroke-linecap="round"/>
+        <path d="M 92 80 Q 105 68 118 80 Q 131 92 144 80 Q 157 68 170 80 Q 183 92 196 80 Q 209 68 222 80 Q 235 92 248 80 Q 261 68 272 80" fill="none" stroke="#4A2213" stroke-width="2" opacity="0.25" stroke-linecap="round"/>
+        <!-- Title block -->
+        <text x="180" y="125" font-family="serif" font-size="9" fill="#4A2213" text-anchor="middle" opacity="0.75">High-Protein Spirulina</text>
+        <text x="180" y="137" font-family="sans-serif" font-size="7" fill="#4A2213" text-anchor="middle" opacity="0.45">product science briefing document</text>
+        <line x1="110" y1="143" x2="250" y2="143" stroke="#4A2213" stroke-width="0.4" opacity="0.2"/>
+        <!-- Content blocks -->
+        <rect x="92" y="150" width="176" height="3" rx="1" fill="#4A2213" opacity="0.15"/>
+        <rect x="92" y="156" width="145" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <rect x="92" y="162" width="162" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <!-- Two-column section -->
+        <rect x="92" y="173" width="82" height="42" rx="2" fill="#4A2213" opacity="0.05" stroke="#4A2213" stroke-width="0.3"/>
+        <text x="133" y="195" font-family="sans-serif" font-size="6" fill="#4A2213" text-anchor="middle" opacity="0.4">protein profile</text>
+        <!-- Radar chart placeholder -->
+        <polygon points="133,182 142,190 138,200 128,200 124,190" fill="none" stroke="#4A2213" stroke-width="0.6" opacity="0.35"/>
+        <polygon points="133,184 140,190 137,198 129,198 126,190" fill="#4A2213" opacity="0.1"/>
+        <rect x="184" y="173" width="84" height="42" rx="2" fill="#4A2213" opacity="0.05" stroke="#4A2213" stroke-width="0.3"/>
+        <text x="226" y="185" font-family="sans-serif" font-size="6" fill="#4A2213" text-anchor="middle" opacity="0.4">amino acid</text>
+        <text x="226" y="193" font-family="sans-serif" font-size="6" fill="#4A2213" text-anchor="middle" opacity="0.4">completeness</text>
+        <rect x="188" y="197" width="60" height="7" rx="1" fill="#4A2213" opacity="0.2"/>
+        <rect x="188" y="207" width="38" height="7" rx="1" fill="#4A2213" opacity="0.15"/>
+        <!-- Footer -->
+        <rect x="92" y="222" width="176" height="3" rx="1" fill="#4A2213" opacity="0.07"/>
+        <rect x="92" y="229" width="130" height="3" rx="1" fill="#4A2213" opacity="0.07"/>
+        <text x="180" y="255" font-family="sans-serif" font-size="7" fill="#4A2213" text-anchor="middle" opacity="0.35">Product scicomm · food industry client</text>
+      </svg>
+      <div class="sc-title">Product science brief — food tech</div>
+    </div>
+
+    <div class="sc" data-title="Mechanism illustration — biofilm disruption" data-tag="Science communication · Illustrated mechanism">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F2EBE7"/>
+        <text x="180" y="18" font-family="sans-serif" font-size="8" fill="#4A2213" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">MECHANISM ILLUSTRATION</text>
+        <text x="180" y="29" font-family="sans-serif" font-size="7" fill="#4A2213" text-anchor="middle" opacity="0.4">Biofilm disruption · natural compound</text>
+        <!-- Highly illustrated panel -->
+        <!-- Background surface texture -->
+        <rect x="18" y="38" width="324" height="178" rx="3" fill="white" opacity="0.4"/>
+        <!-- EPS matrix illustration -->
+        <path d="M 18 155 Q 60 140 100 150 Q 140 160 180 148 Q 220 136 260 148 Q 300 158 342 145 L 342 216 L 18 216 Z" fill="#4A2213" opacity="0.1"/>
+        <text x="180" y="190" font-family="sans-serif" font-size="7" fill="#4A2213" text-anchor="middle" opacity="0.4">EPS matrix</text>
+        <!-- Bacteria -->
+        <ellipse cx="55" cy="158" rx="11" ry="7" fill="#4A2213" opacity="0.28"/>
+        <ellipse cx="95" cy="153" rx="11" ry="7" fill="#4A2213" opacity="0.28"/>
+        <ellipse cx="138" cy="160" rx="11" ry="7" fill="#4A2213" opacity="0.28"/>
+        <ellipse cx="180" cy="152" rx="11" ry="7" fill="#4A2213" opacity="0.28"/>
+        <ellipse cx="224" cy="157" rx="11" ry="7" fill="#4A2213" opacity="0.28"/>
+        <ellipse cx="268" cy="151" rx="11" ry="7" fill="#4A2213" opacity="0.28"/>
+        <ellipse cx="310" cy="158" rx="11" ry="7" fill="#4A2213" opacity="0.28"/>
+        <!-- Surface line -->
+        <line x1="18" y1="216" x2="342" y2="216" stroke="#4A2213" stroke-width="2" opacity="0.25"/>
+        <!-- Natural compound spheres — large, illustrated -->
+        <circle cx="75" cy="90" r="20" fill="#4A2213" opacity="0.12" stroke="#4A2213" stroke-width="0.8"/>
+        <circle cx="75" cy="90" r="13" fill="#4A2213" opacity="0.1"/>
+        <text x="75" y="87" font-family="sans-serif" font-size="6.5" fill="#4A2213" text-anchor="middle" opacity="0.6">natural</text>
+        <text x="75" y="97" font-family="sans-serif" font-size="6.5" fill="#4A2213" text-anchor="middle" opacity="0.6">compound</text>
+        <circle cx="180" cy="80" r="24" fill="#4A2213" opacity="0.12" stroke="#4A2213" stroke-width="0.8"/>
+        <circle cx="180" cy="80" r="15" fill="#4A2213" opacity="0.1"/>
+        <text x="180" y="77" font-family="sans-serif" font-size="6.5" fill="#4A2213" text-anchor="middle" opacity="0.6">natural</text>
+        <text x="180" y="87" font-family="sans-serif" font-size="6.5" fill="#4A2213" text-anchor="middle" opacity="0.6">compound</text>
+        <circle cx="285" cy="88" r="18" fill="#4A2213" opacity="0.12" stroke="#4A2213" stroke-width="0.8"/>
+        <text x="285" y="85" font-family="sans-serif" font-size="6.5" fill="#4A2213" text-anchor="middle" opacity="0.6">natural</text>
+        <text x="285" y="95" font-family="sans-serif" font-size="6.5" fill="#4A2213" text-anchor="middle" opacity="0.6">compound</text>
+        <!-- Disruption arrows -->
+        <line x1="75" y1="111" x2="75" y2="142" stroke="#4A2213" stroke-width="0.7" stroke-dasharray="3 2" opacity="0.45"/>
+        <line x1="180" y1="105" x2="180" y2="138" stroke="#4A2213" stroke-width="0.7" stroke-dasharray="3 2" opacity="0.45"/>
+        <line x1="285" y1="107" x2="285" y2="140" stroke="#4A2213" stroke-width="0.7" stroke-dasharray="3 2" opacity="0.45"/>
+        <!-- Caption -->
+        <text x="180" y="238" font-family="sans-serif" font-size="7.5" fill="#4A2213" text-anchor="middle" opacity="0.5">Mechanism illustration · print and digital ready</text>
+        <text x="180" y="250" font-family="sans-serif" font-size="7" fill="#4A2213" text-anchor="middle" opacity="0.3">Science communication · natural sanitation</text>
+      </svg>
+      <div class="sc-title">Mechanism illustration</div>
+    </div>
+
+    <div class="sc" data-title="Researcher profile — academic communication" data-tag="Science communication · Researcher comms · Profile">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F2EBE7"/>
+        <text x="180" y="18" font-family="sans-serif" font-size="8" fill="#4A2213" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">RESEARCHER PROFILE — COMMUNICATION</text>
+        <!-- Profile card layout -->
+        <rect x="30" y="28" width="300" height="210" rx="3" fill="white" opacity="0.68" stroke="#4A2213" stroke-width="0.4"/>
+        <!-- Left column — portrait -->
+        <rect x="40" y="38" width="80" height="100" rx="2" fill="#4A2213" opacity="0.1"/>
+        <circle cx="80" cy="72" r="22" fill="#4A2213" opacity="0.15"/>
+        <rect x="54" y="100" width="52" height="4" rx="1" fill="#4A2213" opacity="0.15"/>
+        <rect x="58" y="107" width="44" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <!-- Research interest tags -->
+        <rect x="40" y="148" width="36" height="10" rx="2" fill="#4A2213" opacity="0.15"/>
+        <rect x="80" y="148" width="44" height="10" rx="2" fill="#4A2213" opacity="0.1"/>
+        <rect x="40" y="162" width="50" height="10" rx="2" fill="#4A2213" opacity="0.12"/>
+        <!-- Right column — text -->
+        <rect x="136" y="38" width="180" height="5" rx="1" fill="#4A2213" opacity="0.18"/>
+        <rect x="136" y="47" width="140" height="4" rx="1" fill="#4A2213" opacity="0.1"/>
+        <line x1="136" y1="58" x2="310" y2="58" stroke="#4A2213" stroke-width="0.3" opacity="0.15"/>
+        <rect x="136" y="65" width="175" height="3.5" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="136" y="72" width="160" height="3.5" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="136" y="79" width="175" height="3.5" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="136" y="86" width="130" height="3.5" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="136" y="98" width="175" height="3.5" rx="1" fill="#4A2213" opacity="0.08"/>
+        <rect x="136" y="105" width="155" height="3.5" rx="1" fill="#4A2213" opacity="0.08"/>
+        <rect x="136" y="112" width="170" height="3.5" rx="1" fill="#4A2213" opacity="0.08"/>
+        <!-- Publications list -->
+        <text x="136" y="132" font-family="sans-serif" font-size="6" fill="#4A2213" opacity="0.4">Selected publications</text>
+        <line x1="136" y1="136" x2="310" y2="136" stroke="#4A2213" stroke-width="0.3" opacity="0.12"/>
+        <rect x="140" y="140" width="3" height="3" fill="#4A2213" opacity="0.3"/>
+        <rect x="147" y="140" width="155" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <rect x="140" y="148" width="3" height="3" fill="#4A2213" opacity="0.3"/>
+        <rect x="147" y="148" width="140" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <rect x="140" y="156" width="3" height="3" fill="#4A2213" opacity="0.3"/>
+        <rect x="147" y="156" width="162" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <!-- Affiliation bar -->
+        <rect x="30" y="218" width="300" height="20" rx="3" fill="#4A2213" opacity="0.07"/>
+        <rect x="40" y="224" width="60" height="3" rx="1" fill="#4A2213" opacity="0.15"/>
+        <rect x="240" y="224" width="80" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <text x="180" y="258" font-family="sans-serif" font-size="7" fill="#4A2213" text-anchor="middle" opacity="0.35">Researcher profile · academic science communication</text>
+      </svg>
+      <div class="sc-title">Researcher profile — academic comms</div>
+    </div>
+
+    <div class="sc" data-title="Fermentation education — CoLab illustrated content" data-tag="Science communication · Education · Fermentation">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F2EBE7"/>
+        <text x="180" y="18" font-family="sans-serif" font-size="8" fill="#4A2213" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">EDUCATION CONTENT — FERMENTATION</text>
+        <text x="180" y="29" font-family="sans-serif" font-size="7" fill="#4A2213" text-anchor="middle" opacity="0.4">CoLab · illustrated module content</text>
+        <!-- Slide layout -->
+        <rect x="18" y="35" width="324" height="195" rx="3" fill="white" opacity="0.65" stroke="#4A2213" stroke-width="0.4"/>
+        <!-- Title area -->
+        <rect x="18" y="35" width="324" height="28" rx="3" fill="#4A2213" opacity="0.08"/>
+        <text x="35" y="52" font-family="sans-serif" font-size="8.5" fill="#4A2213" opacity="0.6">What is fermentation?</text>
+        <!-- Two column content -->
+        <!-- Left col — illustration -->
+        <rect x="28" y="72" width="140" height="130" rx="2" fill="#4A2213" opacity="0.04"/>
+        <!-- Big vessel illustration -->
+        <rect x="58" y="82" width="80" height="100" rx="6" fill="#4A2213" opacity="0.08" stroke="#4A2213" stroke-width="0.8"/>
+        <!-- Bubbles (CO2) -->
+        <circle cx="78" cy="145" r="4" fill="#4A2213" opacity="0.2"/>
+        <circle cx="98" cy="132" r="5" fill="#4A2213" opacity="0.2"/>
+        <circle cx="118" cy="140" r="3" fill="#4A2213" opacity="0.2"/>
+        <circle cx="90" cy="115" r="6" fill="#4A2213" opacity="0.15"/>
+        <circle cx="112" cy="120" r="4" fill="#4A2213" opacity="0.15"/>
+        <!-- Liquid level -->
+        <rect x="62" y="120" width="72" height="58" rx="4" fill="#4A2213" opacity="0.1"/>
+        <text x="98" y="165" font-family="sans-serif" font-size="6.5" fill="#4A2213" text-anchor="middle" opacity="0.4">broth</text>
+        <!-- Impeller -->
+        <line x1="98" y1="86" x2="98" y2="178" stroke="#4A2213" stroke-width="0.8" opacity="0.3"/>
+        <ellipse cx="98" cy="132" rx="18" ry="4" fill="none" stroke="#4A2213" stroke-width="0.6" opacity="0.4"/>
+        <!-- Right col — key points -->
+        <text x="185" y="78" font-family="sans-serif" font-size="7.5" fill="#4A2213" opacity="0.6">Key concepts</text>
+        <line x1="178" y1="82" x2="332" y2="82" stroke="#4A2213" stroke-width="0.3" opacity="0.15"/>
+        <circle cx="185" cy="96" r="3" fill="#4A2213" opacity="0.4"/>
+        <rect x="193" y="93" width="135" height="3" rx="1" fill="#4A2213" opacity="0.15"/>
+        <rect x="193" y="99" width="110" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <circle cx="185" cy="115" r="3" fill="#4A2213" opacity="0.4"/>
+        <rect x="193" y="112" width="130" height="3" rx="1" fill="#4A2213" opacity="0.15"/>
+        <rect x="193" y="118" width="105" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <circle cx="185" cy="134" r="3" fill="#4A2213" opacity="0.4"/>
+        <rect x="193" y="131" width="140" height="3" rx="1" fill="#4A2213" opacity="0.15"/>
+        <rect x="193" y="137" width="95" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <circle cx="185" cy="153" r="3" fill="#4A2213" opacity="0.4"/>
+        <rect x="193" y="150" width="128" height="3" rx="1" fill="#4A2213" opacity="0.15"/>
+        <!-- Slide footer -->
+        <rect x="18" y="215" width="324" height="15" rx="3" fill="#4A2213" opacity="0.06"/>
+        <text x="30" y="225" font-family="sans-serif" font-size="5.5" fill="#4A2213" opacity="0.35">CoLab Fermentation Programme · Module 01</text>
+        <text x="330" y="225" font-family="sans-serif" font-size="5.5" fill="#4A2213" text-anchor="end" opacity="0.3">slide 3 / 14</text>
+        <text x="180" y="252" font-family="sans-serif" font-size="7" fill="#4A2213" text-anchor="middle" opacity="0.35">Education module content · CoLab · fermentation</text>
+      </svg>
+      <div class="sc-title">Education content — CoLab</div>
+    </div>
+
+    <div class="sc" data-title="Deeptech science website — homepage design" data-tag="Web · Deeptech · Science company">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F2EBE7"/>
+        <!-- Browser chrome -->
+        <rect x="18" y="18" width="324" height="235" rx="3" fill="white" opacity="0.75" stroke="#4A2213" stroke-width="0.4"/>
+        <rect x="18" y="18" width="324" height="18" rx="3" fill="#4A2213" opacity="0.1"/>
+        <circle cx="30" cy="27" r="3" fill="#4A2213" opacity="0.2"/>
+        <circle cx="40" cy="27" r="3" fill="#4A2213" opacity="0.15"/>
+        <circle cx="50" cy="27" r="3" fill="#4A2213" opacity="0.1"/>
+        <rect x="75" y="23" width="180" height="8" rx="3" fill="#4A2213" opacity="0.08"/>
+        <!-- Nav -->
+        <rect x="18" y="36" width="324" height="14" fill="#4A2213" opacity="0.06" stroke="#4A2213" stroke-width="0.2"/>
+        <text x="30" y="46" font-family="serif" font-size="6" fill="#4A2213" opacity="0.6">Ecopatch</text>
+        <text x="175" y="46" font-family="sans-serif" font-size="5.5" fill="#4A2213" opacity="0.4">Research</text>
+        <text x="210" y="46" font-family="sans-serif" font-size="5.5" fill="#4A2213" opacity="0.4">IP</text>
+        <text x="232" y="46" font-family="sans-serif" font-size="5.5" fill="#4A2213" opacity="0.4">Build</text>
+        <text x="258" y="46" font-family="sans-serif" font-size="5.5" fill="#4A2213" opacity="0.4">Studio</text>
+        <text x="290" y="46" font-family="sans-serif" font-size="5.5" fill="#4A2213" opacity="0.4">Contact</text>
+        <!-- Hero section -->
+        <rect x="18" y="50" width="324" height="80" fill="#4A2213" opacity="0.05"/>
+        <text x="35" y="80" font-family="serif" font-size="14" fill="#4A2213" opacity="0.65">Science, from</text>
+        <text x="35" y="96" font-family="serif" font-size="14" fill="#4A2213" opacity="0.65" font-style="italic">unresolved</text>
+        <text x="35" y="112" font-family="serif" font-size="14" fill="#4A2213" opacity="0.65">to understood.</text>
+        <!-- Right col — desc -->
+        <rect x="205" y="68" width="126" height="3.5" rx="1" fill="#4A2213" opacity="0.18"/>
+        <rect x="205" y="74" width="112" height="3.5" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="205" y="80" width="120" height="3.5" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="205" y="86" width="100" height="3.5" rx="1" fill="#4A2213" opacity="0.12"/>
+        <!-- Wing tags -->
+        <rect x="205" y="96" width="30" height="8" rx="1" fill="#4A2213" opacity="0.2" stroke="#4A2213" stroke-width="0.3"/>
+        <rect x="238" y="96" width="22" height="8" rx="1" fill="#4A2213" opacity="0.12" stroke="#4A2213" stroke-width="0.3"/>
+        <rect x="263" y="96" width="30" height="8" rx="1" fill="#4A2213" opacity="0.12" stroke="#4A2213" stroke-width="0.3"/>
+        <!-- Work grid below hero -->
+        <text x="30" y="146" font-family="sans-serif" font-size="5.5" fill="#4A2213" opacity="0.4" letter-spacing="0.08em">WORK ACROSS WINGS</text>
+        <rect x="28" y="152" width="74" height="50" rx="1" fill="#4A2213" opacity="0.08"/>
+        <rect x="106" y="152" width="74" height="50" rx="1" fill="#4A2213" opacity="0.08"/>
+        <rect x="184" y="152" width="74" height="50" rx="1" fill="#4A2213" opacity="0.08"/>
+        <rect x="262" y="152" width="74" height="50" rx="1" fill="#4A2213" opacity="0.08"/>
+        <!-- SVG-like shapes inside grid cells -->
+        <path d="M 38 185 Q 50 172 62 185 Q 74 198 86 185 Q 98 172" fill="none" stroke="#4A2213" stroke-width="0.8" opacity="0.35"/>
+        <circle cx="143" cy="177" r="8" fill="#4A2213" opacity="0.12"/>
+        <rect x="118" y="185" width="32" height="3" rx="1" fill="#4A2213" opacity="0.15"/>
+        <rect x="196" y="170" width="50" height="3" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="196" y="178" width="42" height="10" rx="1" fill="#4A2213" opacity="0.08"/>
+        <!-- Engage bar -->
+        <rect x="18" y="208" width="324" height="30" fill="#4A2213" opacity="0.75"/>
+        <text x="50" y="226" font-family="serif" font-size="8" fill="white" opacity="0.7">Work starts with a conversation.</text>
+        <rect x="270" y="217" width="55" height="12" rx="1" fill="white" opacity="0.2"/>
+        <text x="297" y="226" font-family="sans-serif" font-size="6" fill="white" text-anchor="middle" opacity="0.7">Get in touch ↗</text>
+      </svg>
+      <div class="sc-title">Deeptech science website</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DEEPTECH WEBSITES SECTION -->
+<div class="web-section fi">
+  <div class="web-inner">
+    <div class="web-l">
+      <div class="web-l-top">
+        <div class="web-kicker">Deeptech · Science companies only</div>
+        <h2>Websites built<br>from the<br><em>science up.</em></h2>
+        <p>We build websites for deeptech and science-first companies — where the science is the product and the communication has to hold up under scrutiny. Not for everyone. Specifically for companies where the work is technically hard, the claims are real, and generic agency output would be a liability.</p>
+        <div class="web-types">
+          <div class="web-type">
+            <div class="web-type-dot"></div>
+            <div class="web-type-text"><strong>Science company homepage</strong> — positioning, work samples, engagement. Built around what the science actually is.</div>
+          </div>
+          <div class="web-type">
+            <div class="web-type-dot"></div>
+            <div class="web-type-text"><strong>Research group site</strong> — lab pages, publications, team, and project pages where the content is accurate and findable.</div>
+          </div>
+          <div class="web-type">
+            <div class="web-type-dot"></div>
+            <div class="web-type-text"><strong>Product science pages</strong> — mechanism pages, technical explainers, and evidence pages for deeptech products.</div>
+          </div>
+          <div class="web-type">
+            <div class="web-type-dot"></div>
+            <div class="web-type-text"><strong>IP and innovation showcase</strong> — patent portfolio pages and technology pages for licensing or investment audiences.</div>
+          </div>
+        </div>
+        <a href="mailto:studio@ecopatch.in" class="btn-w">Write to us ↗</a>
+      </div>
+      <div class="web-note">We don't build general commercial websites. This is for science companies, academic spinouts, and deeptech startups where the science itself is what needs to come through — clearly, accurately, and with real credibility.</div>
+    </div>
+    <div class="web-r fi" style="transition-delay:.1s">
+      <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
+        <rect width="480" height="360" fill="#F2EBE7" rx="4"/>
+        <!-- Browser frame -->
+        <rect x="20" y="20" width="440" height="318" rx="5" fill="white" opacity="0.85" stroke="#4A2213" stroke-width="0.5"/>
+        <!-- Browser chrome -->
+        <rect x="20" y="20" width="440" height="24" rx="5" fill="#4A2213" opacity="0.12"/>
+        <circle cx="36" cy="32" r="4" fill="#4A2213" opacity="0.2"/>
+        <circle cx="50" cy="32" r="4" fill="#4A2213" opacity="0.15"/>
+        <circle cx="64" cy="32" r="4" fill="#4A2213" opacity="0.1"/>
+        <rect x="100" y="27" width="240" height="10" rx="4" fill="#4A2213" opacity="0.07"/>
+        <text x="220" y="35" font-family="sans-serif" font-size="6" fill="#4A2213" text-anchor="middle" opacity="0.3">ecopatch.in</text>
+        <!-- Nav bar -->
+        <rect x="20" y="44" width="440" height="18" fill="#4A2213" opacity="0.07"/>
+        <text x="36" y="56" font-family="serif" font-size="7.5" fill="#4A2213" opacity="0.65">Ecopatch</text>
+        <text x="240" y="56" font-family="sans-serif" font-size="6" fill="#4A2213" opacity="0.35">Research</text>
+        <text x="285" y="56" font-family="sans-serif" font-size="6" fill="#4A2213" opacity="0.35">IP</text>
+        <text x="308" y="56" font-family="sans-serif" font-size="6" fill="#4A2213" opacity="0.35">Build</text>
+        <text x="338" y="56" font-family="sans-serif" font-size="6" fill="#4A2213" opacity="0.35">Studio</text>
+        <text x="380" y="56" font-family="sans-serif" font-size="6" fill="#4A2213" opacity="0.35">Kids</text>
+        <text x="428" y="56" font-family="sans-serif" font-size="6" fill="#4A2213" opacity="0.35">Contact</text>
+        <!-- Hero -->
+        <rect x="20" y="62" width="440" height="100" fill="#4A2213" opacity="0.04"/>
+        <text x="40" y="95" font-family="serif" font-size="20" fill="#4A2213" opacity="0.6">Science, from</text>
+        <text x="40" y="118" font-family="serif" font-size="20" fill="#4A2213" opacity="0.6" font-style="italic">unresolved</text>
+        <text x="40" y="141" font-family="serif" font-size="20" fill="#4A2213" opacity="0.6">to understood.</text>
+        <!-- Right hero col -->
+        <rect x="270" y="82" width="170" height="4" rx="1" fill="#4A2213" opacity="0.15"/>
+        <rect x="270" y="90" width="150" height="4" rx="1" fill="#4A2213" opacity="0.1"/>
+        <rect x="270" y="98" width="160" height="4" rx="1" fill="#4A2213" opacity="0.1"/>
+        <rect x="270" y="106" width="130" height="4" rx="1" fill="#4A2213" opacity="0.1"/>
+        <rect x="270" y="118" width="40" height="10" rx="2" fill="#4A2213" opacity="0.2" stroke="#4A2213" stroke-width="0.3"/>
+        <rect x="316" y="118" width="28" height="10" rx="2" fill="#4A2213" opacity="0.12" stroke="#4A2213" stroke-width="0.3"/>
+        <rect x="350" y="118" width="40" height="10" rx="2" fill="#4A2213" opacity="0.12" stroke="#4A2213" stroke-width="0.3"/>
+        <!-- 5-wing strip -->
+        <rect x="20" y="162" width="88" height="56" fill="#4A2213" opacity="0.1" stroke="#4A2213" stroke-width="0.3"/>
+        <rect x="108" y="162" width="88" height="56" fill="#4A2213" opacity="0.07" stroke="#4A2213" stroke-width="0.3"/>
+        <rect x="196" y="162" width="88" height="56" fill="#4A2213" opacity="0.07" stroke="#4A2213" stroke-width="0.3"/>
+        <rect x="284" y="162" width="88" height="56" fill="#4A2213" opacity="0.07" stroke="#4A2213" stroke-width="0.3"/>
+        <rect x="372" y="162" width="88" height="56" fill="#4A2213" opacity="0.05" stroke="#4A2213" stroke-width="0.3"/>
+        <text x="64" y="188" font-family="serif" font-size="9" fill="#4A2213" text-anchor="middle" opacity="0.55">Research</text>
+        <text x="152" y="188" font-family="serif" font-size="9" fill="#4A2213" text-anchor="middle" opacity="0.45">IP</text>
+        <text x="240" y="188" font-family="serif" font-size="9" fill="#4A2213" text-anchor="middle" opacity="0.45">Build</text>
+        <text x="328" y="188" font-family="serif" font-size="9" fill="#4A2213" text-anchor="middle" opacity="0.45">Studio</text>
+        <text x="416" y="188" font-family="serif" font-size="9" fill="#4A2213" text-anchor="middle" opacity="0.4">Kids</text>
+        <!-- Work grid -->
+        <text x="36" y="234" font-family="sans-serif" font-size="6" fill="#4A2213" opacity="0.35" letter-spacing="0.1em">WORK SAMPLES</text>
+        <rect x="28" y="240" width="96" height="66" rx="1" fill="#4A2213" opacity="0.07"/>
+        <rect x="130" y="240" width="96" height="66" rx="1" fill="#4A2213" opacity="0.07"/>
+        <rect x="232" y="240" width="96" height="66" rx="1" fill="#4A2213" opacity="0.07"/>
+        <rect x="334" y="240" width="126" height="66" rx="1" fill="#4A2213" opacity="0.07"/>
+        <!-- Micro SVG suggestions in cells -->
+        <path d="M 38 280 Q 52 265 66 280 Q 80 295 94 280 Q 108 265" fill="none" stroke="#4A2213" stroke-width="1" opacity="0.35"/>
+        <circle cx="178" cy="272" r="12" fill="#4A2213" opacity="0.12"/>
+        <rect x="152" y="288" width="48" height="3" rx="1" fill="#4A2213" opacity="0.12"/>
+        <rect x="246" y="262" width="64" height="3" rx="1" fill="#4A2213" opacity="0.1"/>
+        <rect x="246" y="270" width="56" height="16" rx="1" fill="#4A2213" opacity="0.07"/>
+        <rect x="246" y="291" width="64" height="3" rx="1" fill="#4A2213" opacity="0.08"/>
+        <!-- Engage bar -->
+        <rect x="20" y="312" width="440" height="26" fill="#4A2213" opacity="0.75"/>
+        <text x="60" y="328" font-family="serif" font-size="9" fill="white" opacity="0.7">Work starts with a conversation.</text>
+        <rect x="370" y="319" width="72" height="12" rx="1" fill="white" opacity="0.18"/>
+        <text x="406" y="328" font-family="sans-serif" font-size="6" fill="white" text-anchor="middle" opacity="0.7">Get in touch ↗</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="engage">
+  <div class="eng-l fi">
+    <h2>Science that<br><em>reaches further.</em></h2>
+    <p>Illustrated mechanisms, science briefs, figures, reports, education content, and websites for deeptech science companies. We work from the science directly — no simplification that introduces error.</p>
+    <a href="mailto:studio@ecopatch.in" class="btn-c">Write to us ↗</a>
+  </div>
+  <div class="eng-r fi" style="transition-delay:.1s">
+    <p class="faq-label">Working with us</p>
+    <div class="faq"><q>Who do you produce scicomm for?</q><p>Science-based companies and research institutions — agritech, food tech, biotech, materials, and deeptech companies who need their science communicated accurately. Also academic groups preparing grant materials, reports, and public-facing content.</p></div>
+    <div class="faq"><q>What types of outputs do you produce?</q><p>Illustrated mechanisms, product science briefs, academic figures, education content, slide decks, annual reports, researcher profiles — and websites for deeptech and science-first companies where the technical content is the core of the site.</p></div>
+    <div class="faq"><q>How technical do you go?</q><p>All the way. We write and illustrate from primary sources and our own understanding of the science — not from summaries. We flag it when we're uncertain about something rather than smoothing over it.</p></div>
+    <div class="faq"><q>Who are the deeptech websites for?</q><p>Specifically for companies where the science is the product — spinouts, early-stage deeptech, and research-led companies where generic web agency output would misrepresent the work. Not for general commercial sites.</p></div>
+  </div>
+</div>
+
+<footer>
+  <span class="fl">Ecopatch</span>
+  <ul class="fn">
+    <li><a href="research.html">Research</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="build.html">Build</a></li>
+    <li><a href="studio.html">Studio</a></li>
+    <li><a href="kids.html">Kids</a></li>
+  </ul>
+  <span class="fr">ecopatch.in</span>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-inner">
+    <button class="modal-close" id="mclose">✕</button>
+    <div class="modal-svg-wrap" id="msvg"></div>
+    <div class="modal-meta"><div class="modal-title" id="mtitle"></div><div class="modal-tag" id="mtag"></div></div>
+  </div>
+</div>
+<script>
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
+(function t(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(t);})();
+document.querySelectorAll('a,.sc').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cr.style.width='38px';cr.style.height='38px';});
+  el.addEventListener('mouseleave',()=>{cr.style.width='28px';cr.style.height='28px';});
+});
+const modal=document.getElementById('modal');
+document.querySelectorAll('.sc').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.getElementById('msvg').innerHTML=c.querySelector('svg').outerHTML;
+    document.getElementById('mtitle').textContent=c.dataset.title;
+    document.getElementById('mtag').textContent=c.dataset.tag;
+    modal.classList.add('open');
+  });
+});
+document.getElementById('mclose').addEventListener('click',()=>modal.classList.remove('open'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');});},{threshold:0.08});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

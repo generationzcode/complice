@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecopatch Build</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F4EFE4;--cream-2:#EDE6D4;--ink:#181815;--ink-mid:#62615D;--ink-faint:rgba(24,24,21,0.1);--a:#162B52;--at:#EAEEf5;--serif:'Cormorant',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);cursor:none;overflow-x:hidden;}
+.cur{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;}
+#cd{width:5px;height:5px;background:var(--ink);transform:translate(-50%,-50%);}
+#cr{width:28px;height:28px;border:1px solid rgba(24,24,21,0.18);transform:translate(-50%,-50%);transition:width .25s,height .25s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 52px;background:var(--cream);border-bottom:1px solid var(--ink-faint);}
+.logo{font-family:var(--serif);font-size:19px;font-weight:500;text-decoration:none;color:var(--ink);letter-spacing:.02em;}
+.logo em{font-style:italic;font-weight:300;}
+.wing-pill{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:var(--a);color:var(--cream);padding:3px 9px;}
+.nav-links{display:flex;gap:22px;list-style:none;}
+.nav-links a{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color .2s;}
+.nav-links a:hover,.nav-links a.on{color:var(--ink);}
+.hero{min-height:56vh;padding:120px 52px 64px;background:var(--at);border-bottom:1px solid var(--ink-faint);display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:80px;}
+.hero-h1{font-family:var(--serif);font-size:clamp(48px,5.5vw,72px);font-weight:300;line-height:1.02;letter-spacing:-.015em;}
+.hero-h1 em{font-style:italic;color:var(--a);}
+.hero-body{font-size:14px;font-weight:300;color:var(--ink-mid);line-height:1.9;max-width:460px;}
+.grid-section{padding:56px 52px 72px;border-bottom:1px solid var(--ink-faint);}
+.grid-label{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mid);opacity:.55;margin-bottom:32px;}
+.sample-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:var(--at);border:1px solid rgba(22,43,82,0.1);aspect-ratio:4/3;display:flex;flex-direction:column;overflow:hidden;cursor:pointer;transition:border-color .2s;}
+.sc:hover{border-color:var(--a);}
+.sc svg{width:100%;height:100%;display:block;flex:1;}
+.sc-title{padding:8px 10px;font-size:9px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--a);border-top:1px solid rgba(22,43,82,0.1);background:var(--cream);flex-shrink:0;}
+.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(24,24,21,0.88);align-items:center;justify-content:center;}
+.modal.open{display:flex;}
+.modal-inner{background:var(--cream);max-width:680px;width:90%;max-height:88vh;overflow:auto;position:relative;}
+.modal-close{position:absolute;top:16px;right:18px;font-size:18px;cursor:pointer;color:var(--ink-mid);background:none;border:none;}
+.modal-svg-wrap{padding:32px;}
+.modal-svg-wrap svg{width:100%;max-height:440px;}
+.modal-meta{padding:0 32px 28px;}
+.modal-title{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:6px;}
+.modal-tag{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--a);}
+.engage{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ink-faint);}
+.eng-l{padding:56px 52px;background:var(--a);}
+.eng-l h2{font-family:var(--serif);font-size:40px;font-weight:300;color:var(--cream);line-height:1.05;margin-bottom:18px;}
+.eng-l h2 em{font-style:italic;}
+.eng-l p{font-size:13px;font-weight:300;color:rgba(244,239,228,.6);line-height:1.85;margin-bottom:28px;max-width:360px;}
+.btn-c{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--a);background:var(--cream);padding:11px 22px;}
+.eng-r{padding:56px 52px;}
+.faq-label{font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mid);opacity:.45;margin-bottom:20px;}
+.faq{padding:13px 0;border-bottom:1px solid var(--ink-faint);}
+.faq:last-child{border-bottom:none;}
+.faq q{font-size:13px;font-weight:400;color:var(--ink);display:block;margin-bottom:5px;quotes:none;}
+.faq p{font-size:12px;font-weight:300;color:var(--ink-mid);line-height:1.7;}
+footer{background:var(--ink);padding:26px 52px;display:flex;align-items:center;justify-content:space-between;}
+.fl{font-family:var(--serif);font-size:15px;color:rgba(244,239,228,.7);}
+.fn{display:flex;gap:20px;list-style:none;}
+.fn a{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(244,239,228,.28);text-decoration:none;transition:color .2s;}
+.fn a:hover{color:rgba(244,239,228,.6);}
+.fr{font-size:10px;color:rgba(244,239,228,.2);}
+.fi{opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease;}
+.fi.v{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+<div class="cur" id="cd"></div><div class="cur" id="cr"></div>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <a href="index.html" class="logo">Eco<em>patch</em></a>
+    <span class="wing-pill">Build</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="research.html">Research</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="build.html" class="on">Build</a></li>
+    <li><a href="studio.html">Studio</a></li>
+    <li><a href="kids.html">Kids</a></li>
+    <li><a href="mailto:hello@ecopatch.in">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1 class="hero-h1">Science that<br>becomes a<br><em>working thing.</em></h1>
+  </div>
+  <div>
+    <p class="hero-body">Systems, platforms, and tools built on real scientific foundations — from fermentation infrastructure to bio-chip architectures to educational platforms. We work across food tech, agri biotech, synthetic biology, and computation.</p>
+  </div>
+</section>
+
+<section class="grid-section fi">
+  <p class="grid-label">Build work — sample outputs</p>
+  <div class="sample-grid">
+
+    <div class="sc" data-title="BioCompute — chip-based DNA data storage" data-tag="Synthetic biology · Grow Your Own Cloud">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#EAEEf5"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#162B52" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">BIOCOMPUTE — CHIP ARCHITECTURE</text>
+        <rect x="90" y="38" width="180" height="155" rx="6" fill="#162B52" opacity="0.07" stroke="#162B52" stroke-width="0.8"/>
+        <rect x="102" y="50" width="75" height="55" rx="3" fill="#162B52" opacity="0.12" stroke="#162B52" stroke-width="0.4"/>
+        <text x="139" y="80" font-family="sans-serif" font-size="8" fill="#162B52" text-anchor="middle" opacity="0.6">WRITE</text>
+        <text x="139" y="92" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">synthesis</text>
+        <rect x="183" y="50" width="75" height="55" rx="3" fill="#162B52" opacity="0.12" stroke="#162B52" stroke-width="0.4"/>
+        <text x="220" y="80" font-family="sans-serif" font-size="8" fill="#162B52" text-anchor="middle" opacity="0.6">READ</text>
+        <text x="220" y="92" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">sequencing</text>
+        <rect x="102" y="114" width="156" height="65" rx="3" fill="#162B52" opacity="0.07" stroke="#162B52" stroke-width="0.4"/>
+        <text x="180" y="145" font-family="sans-serif" font-size="7.5" fill="#162B52" text-anchor="middle" opacity="0.5">DNA storage matrix</text>
+        <path d="M 110 158 Q 122 148 134 158 Q 146 168 158 158 Q 170 148 182 158 Q 194 168 206 158 Q 218 148 230 158 Q 242 168 252 158" fill="none" stroke="#162B52" stroke-width="0.8" opacity="0.35"/>
+        <path d="M 110 164 Q 122 174 134 164 Q 146 154 158 164 Q 170 174 182 164 Q 194 154 206 164 Q 218 174 230 164 Q 242 154 252 164" fill="none" stroke="#162B52" stroke-width="0.8" opacity="0.35"/>
+        <rect x="82" y="68" width="8" height="5" rx="1" fill="#162B52" opacity="0.3"/>
+        <rect x="82" y="82" width="8" height="5" rx="1" fill="#162B52" opacity="0.3"/>
+        <rect x="82" y="96" width="8" height="5" rx="1" fill="#162B52" opacity="0.3"/>
+        <rect x="270" y="68" width="8" height="5" rx="1" fill="#162B52" opacity="0.3"/>
+        <rect x="270" y="82" width="8" height="5" rx="1" fill="#162B52" opacity="0.3"/>
+        <rect x="270" y="96" width="8" height="5" rx="1" fill="#162B52" opacity="0.3"/>
+        <text x="180" y="220" font-family="sans-serif" font-size="7.5" fill="#162B52" text-anchor="middle" opacity="0.5">215 PB/g theoretical · chip-scale DNA storage</text>
+        <text x="180" y="234" font-family="sans-serif" font-size="6.5" fill="#162B52" text-anchor="middle" opacity="0.35">Grow Your Own Cloud · BioCompute</text>
+      </svg>
+      <div class="sc-title">BioCompute — chip architecture</div>
+    </div>
+
+    <div class="sc" data-title="Spirulina bioreactor — production system design" data-tag="Food tech · Bioprocessing · High-protein">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#EAEEf5"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#162B52" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">SPIRULINA — RACEWAY POND SYSTEM</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.4">High-protein production · process design</text>
+        <path d="M 55 75 L 55 165 Q 55 182 75 182 L 285 182 Q 305 182 305 165 L 305 75 Q 305 58 285 58 L 75 58 Q 55 58 55 75 Z" fill="#162B52" opacity="0.06" stroke="#162B52" stroke-width="0.8"/>
+        <path d="M 78 90 L 78 152 Q 78 165 93 165 L 267 165 Q 282 165 282 152 L 282 90 Q 282 77 267 77 L 93 77 Q 78 77 78 90 Z" fill="#162B52" opacity="0.05" stroke="#162B52" stroke-width="0.5"/>
+        <rect x="158" y="60" width="44" height="22" rx="3" fill="#162B52" opacity="0.2" stroke="#162B52" stroke-width="0.5"/>
+        <text x="180" y="75" font-family="sans-serif" font-size="6.5" fill="#162B52" text-anchor="middle" opacity="0.7">paddlewheel</text>
+        <defs><marker id="ap" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="4" markerHeight="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#162B52" stroke-width="1.2"/></marker></defs>
+        <line x1="95" y1="105" x2="140" y2="105" stroke="#162B52" stroke-width="0.6" marker-end="url(#ap)" opacity="0.3"/>
+        <line x1="265" y1="140" x2="220" y2="140" stroke="#162B52" stroke-width="0.6" marker-end="url(#ap)" opacity="0.3"/>
+        <line x1="38" y1="120" x2="53" y2="120" stroke="#162B52" stroke-width="0.8" marker-end="url(#ap)" opacity="0.4"/>
+        <text x="35" y="118" font-family="sans-serif" font-size="6.5" fill="#162B52" opacity="0.5" text-anchor="end">CO₂</text>
+        <line x1="307" y1="120" x2="325" y2="120" stroke="#162B52" stroke-width="0.8" marker-end="url(#ap)" opacity="0.4"/>
+        <text x="328" y="118" font-family="sans-serif" font-size="6.5" fill="#162B52" opacity="0.5">harvest</text>
+        <text x="55" y="205" font-family="sans-serif" font-size="7" fill="#162B52" opacity="0.5">Light: 100–200 μmol/m²/s · Temp: 35°C · pH 9–11</text>
+        <text x="55" y="217" font-family="sans-serif" font-size="7" fill="#162B52" opacity="0.5">Protein yield: 65–70% DW (optimised strain)</text>
+        <text x="180" y="248" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.35">High-protein spirulina · food tech application</text>
+      </svg>
+      <div class="sc-title">Spirulina — production system</div>
+    </div>
+
+    <div class="sc" data-title="BTI fermentation — process engineering" data-tag="Agri biotech · Mosquito control · Scale-up">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#EAEEf5"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#162B52" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">BTI FERMENTATION — PROCESS FLOW</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.4">Scale-up design · spore/crystal co-production</text>
+        <defs><marker id="abf" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="4" markerHeight="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#162B52" stroke-width="1.2"/></marker></defs>
+        <!-- Stage boxes -->
+        <rect x="12" y="90" width="52" height="72" rx="4" fill="#162B52" opacity="0.1" stroke="#162B52" stroke-width="0.6"/>
+        <text x="38" y="122" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.6">seed</text>
+        <text x="38" y="134" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">culture</text>
+        <line x1="64" y1="126" x2="82" y2="126" stroke="#162B52" stroke-width="0.8" marker-end="url(#abf)" opacity="0.4"/>
+        <rect x="84" y="72" width="62" height="108" rx="4" fill="#162B52" opacity="0.1" stroke="#162B52" stroke-width="0.6"/>
+        <text x="115" y="118" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.6">pilot</text>
+        <text x="115" y="130" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.6">bioreactor</text>
+        <text x="115" y="142" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">50 L</text>
+        <line x1="146" y1="126" x2="164" y2="126" stroke="#162B52" stroke-width="0.8" marker-end="url(#abf)" opacity="0.4"/>
+        <rect x="166" y="52" width="72" height="148" rx="4" fill="#162B52" opacity="0.12" stroke="#162B52" stroke-width="0.8"/>
+        <text x="202" y="118" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.7">production</text>
+        <text x="202" y="130" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.7">bioreactor</text>
+        <text x="202" y="142" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.5">500 L</text>
+        <!-- Impeller -->
+        <line x1="202" y1="68" x2="202" y2="185" stroke="#162B52" stroke-width="0.8" opacity="0.3"/>
+        <ellipse cx="202" cy="128" rx="22" ry="5" fill="none" stroke="#162B52" stroke-width="0.6" opacity="0.4"/>
+        <line x1="238" y1="126" x2="256" y2="126" stroke="#162B52" stroke-width="0.8" marker-end="url(#abf)" opacity="0.4"/>
+        <!-- Downstream -->
+        <rect x="258" y="82" width="88" height="88" rx="4" fill="#162B52" opacity="0.08" stroke="#162B52" stroke-width="0.6"/>
+        <text x="302" y="118" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.6">downstream</text>
+        <text x="302" y="130" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.6">processing</text>
+        <text x="302" y="145" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">harvest → dry →</text>
+        <text x="302" y="155" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">formulate</text>
+        <!-- Parameters -->
+        <text x="30" y="220" font-family="sans-serif" font-size="7" fill="#162B52" opacity="0.5">pH 7.0–7.4 · DO 30% · Temp 30°C</text>
+        <text x="30" y="232" font-family="sans-serif" font-size="7" fill="#162B52" opacity="0.4">Sporulation trigger: nutrient depletion</text>
+        <text x="180" y="256" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.35">BTI production · mosquito larvicide</text>
+      </svg>
+      <div class="sc-title">BTI fermentation — process</div>
+    </div>
+
+    <div class="sc" data-title="CoLab fermentation education platform" data-tag="Education · Bioprocessing · Australia">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#EAEEf5"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#162B52" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">FERMENTATION EDUCATION PLATFORM</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.4">CoLab · curriculum and platform design</text>
+        <!-- Platform wireframe -->
+        <rect x="25" y="42" width="310" height="185" rx="4" fill="white" opacity="0.6" stroke="#162B52" stroke-width="0.6"/>
+        <!-- Header bar -->
+        <rect x="25" y="42" width="310" height="22" rx="4" fill="#162B52" opacity="0.15"/>
+        <text x="88" y="57" font-family="sans-serif" font-size="7" fill="#162B52" opacity="0.6">CoLab Fermentation Programme</text>
+        <circle cx="38" cy="53" r="3" fill="#162B52" opacity="0.3"/>
+        <circle cx="50" cy="53" r="3" fill="#162B52" opacity="0.2"/>
+        <circle cx="62" cy="53" r="3" fill="#162B52" opacity="0.15"/>
+        <!-- Left sidebar — modules -->
+        <rect x="25" y="64" width="80" height="163" fill="#162B52" opacity="0.04" stroke="#162B52" stroke-width="0.3"/>
+        <text x="65" y="78" font-family="sans-serif" font-size="6.5" fill="#162B52" text-anchor="middle" opacity="0.5">Modules</text>
+        <rect x="32" y="84" width="66" height="16" rx="2" fill="#162B52" opacity="0.15"/>
+        <text x="65" y="96" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.7">01 Intro to Ferm.</text>
+        <rect x="32" y="104" width="66" height="16" rx="2" fill="#162B52" opacity="0.06"/>
+        <text x="65" y="116" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.5">02 Yeast biology</text>
+        <rect x="32" y="124" width="66" height="16" rx="2" fill="#162B52" opacity="0.06"/>
+        <text x="65" y="136" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.5">03 Substrate</text>
+        <rect x="32" y="144" width="66" height="16" rx="2" fill="#162B52" opacity="0.06"/>
+        <text x="65" y="156" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.5">04 Scale</text>
+        <rect x="32" y="164" width="66" height="16" rx="2" fill="#162B52" opacity="0.06"/>
+        <text x="65" y="176" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">05 Analytics</text>
+        <rect x="32" y="184" width="66" height="16" rx="2" fill="#162B52" opacity="0.06"/>
+        <text x="65" y="196" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">06 Industry</text>
+        <!-- Main content area -->
+        <rect x="110" y="68" width="220" height="80" rx="2" fill="#162B52" opacity="0.05"/>
+        <text x="220" y="86" font-family="sans-serif" font-size="7.5" fill="#162B52" text-anchor="middle" opacity="0.6">What happens during fermentation?</text>
+        <!-- Simplified illustration -->
+        <path d="M 122 135 Q 140 115 158 135 Q 176 155 194 135 Q 212 115 230 135 Q 248 155 266 135 Q 284 115 302 135" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.4"/>
+        <text x="220" y="152" font-family="sans-serif" font-size="6.5" fill="#162B52" text-anchor="middle" opacity="0.4">metabolic activity over time</text>
+        <!-- Progress / quiz bar -->
+        <rect x="110" y="155" width="220" height="30" rx="2" fill="#162B52" opacity="0.04" stroke="#162B52" stroke-width="0.3"/>
+        <rect x="115" y="160" width="120" height="10" rx="2" fill="#162B52" opacity="0.2"/>
+        <rect x="115" y="160" width="72" height="10" rx="2" fill="#162B52" opacity="0.4"/>
+        <text x="245" y="170" font-family="sans-serif" font-size="6" fill="#162B52" opacity="0.5">60% complete</text>
+        <rect x="115" y="174" width="50" height="8" rx="2" fill="#162B52" opacity="0.25"/>
+        <text x="140" y="181" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.7">Next →</text>
+        <text x="180" y="244" font-family="sans-serif" font-size="7.5" fill="#162B52" text-anchor="middle" opacity="0.5">CoLab · fermentation education · online platform</text>
+      </svg>
+      <div class="sc-title">CoLab — fermentation platform</div>
+    </div>
+
+    <div class="sc" data-title="Paddy field input deployment — delivery system" data-tag="Agri biotech · Paddy field systems">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#EAEEf5"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#162B52" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">PADDY INPUT — DEPLOYMENT SYSTEM</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.4">Biological input delivery · field application design</text>
+        <!-- Paddy field cross-section -->
+        <!-- Water layer -->
+        <rect x="20" y="100" width="320" height="30" fill="#162B52" opacity="0.08"/>
+        <text x="350" y="118" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="end" opacity="0.4">water</text>
+        <!-- Soil layer -->
+        <rect x="20" y="130" width="320" height="50" fill="#162B52" opacity="0.15"/>
+        <text x="350" y="158" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="end" opacity="0.4">soil</text>
+        <!-- Subsoil -->
+        <rect x="20" y="180" width="320" height="30" fill="#162B52" opacity="0.22"/>
+        <text x="350" y="196" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="end" opacity="0.4">subsoil</text>
+        <!-- Rice plants -->
+        <line x1="80" y1="100" x2="80" y2="50" stroke="#162B52" stroke-width="2" opacity="0.5"/>
+        <path d="M 60 65 Q 70 55 80 62" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.5"/>
+        <path d="M 100 60 Q 90 50 80 58" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.5"/>
+        <line x1="180" y1="100" x2="180" y2="40" stroke="#162B52" stroke-width="2" opacity="0.5"/>
+        <path d="M 160 58 Q 170 48 180 55" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.5"/>
+        <path d="M 200 52 Q 190 42 180 50" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.5"/>
+        <line x1="280" y1="100" x2="280" y2="48" stroke="#162B52" stroke-width="2" opacity="0.5"/>
+        <path d="M 260 62 Q 270 52 280 59" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.5"/>
+        <path d="M 300 56 Q 290 46 280 54" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.5"/>
+        <!-- Root systems -->
+        <line x1="80" y1="130" x2="60" y2="165" stroke="#162B52" stroke-width="0.8" opacity="0.35"/>
+        <line x1="80" y1="130" x2="100" y2="168" stroke="#162B52" stroke-width="0.8" opacity="0.35"/>
+        <line x1="80" y1="145" x2="55" y2="170" stroke="#162B52" stroke-width="0.5" opacity="0.25"/>
+        <line x1="180" y1="130" x2="160" y2="168" stroke="#162B52" stroke-width="0.8" opacity="0.35"/>
+        <line x1="180" y1="130" x2="200" y2="165" stroke="#162B52" stroke-width="0.8" opacity="0.35"/>
+        <line x1="280" y1="130" x2="260" y2="165" stroke="#162B52" stroke-width="0.8" opacity="0.35"/>
+        <line x1="280" y1="130" x2="300" y2="168" stroke="#162B52" stroke-width="0.8" opacity="0.35"/>
+        <!-- Input granules in water -->
+        <circle cx="120" cy="112" r="4" fill="#162B52" opacity="0.4"/>
+        <circle cx="140" cy="108" r="3" fill="#162B52" opacity="0.3"/>
+        <circle cx="220" cy="115" r="4" fill="#162B52" opacity="0.4"/>
+        <circle cx="240" cy="110" r="3" fill="#162B52" opacity="0.3"/>
+        <!-- Dispersal arrows -->
+        <defs><marker id="ad" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="4" markerHeight="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#162B52" stroke-width="1.2"/></marker></defs>
+        <line x1="120" y1="116" x2="110" y2="130" stroke="#162B52" stroke-width="0.5" stroke-dasharray="2 1" opacity="0.4"/>
+        <line x1="140" y1="112" x2="150" y2="130" stroke="#162B52" stroke-width="0.5" stroke-dasharray="2 1" opacity="0.4"/>
+        <text x="180" y="220" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.5">Granule input · controlled-release rhizosphere delivery</text>
+        <text x="180" y="232" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.35">Multi-functional biological input system</text>
+      </svg>
+      <div class="sc-title">Paddy inputs — delivery system</div>
+    </div>
+
+    <div class="sc" data-title="Plant data storage — Grow Your Own Cloud" data-tag="Synthetic biology · Living data systems">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#EAEEf5"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#162B52" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">GROW YOUR OWN CLOUD</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.4">Plant-based data storage · system architecture</text>
+        <!-- System flow: encode → grow → read -->
+        <rect x="18" y="55" width="68" height="60" rx="4" fill="#162B52" opacity="0.1" stroke="#162B52" stroke-width="0.6"/>
+        <text x="52" y="82" font-family="sans-serif" font-size="7.5" fill="#162B52" text-anchor="middle" opacity="0.6">DATA IN</text>
+        <text x="52" y="95" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">binary → base4</text>
+        <text x="52" y="105" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">ATGC encoding</text>
+        <defs><marker id="agc" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="4" markerHeight="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#162B52" stroke-width="1.2"/></marker></defs>
+        <line x1="88" y1="85" x2="108" y2="85" stroke="#162B52" stroke-width="0.8" marker-end="url(#agc)" opacity="0.4"/>
+        <rect x="110" y="55" width="68" height="60" rx="4" fill="#162B52" opacity="0.1" stroke="#162B52" stroke-width="0.6"/>
+        <text x="144" y="80" font-family="sans-serif" font-size="7.5" fill="#162B52" text-anchor="middle" opacity="0.6">WRITE</text>
+        <text x="144" y="93" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">CRISPR-mediated</text>
+        <text x="144" y="103" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">insertion</text>
+        <line x1="180" y1="85" x2="200" y2="85" stroke="#162B52" stroke-width="0.8" marker-end="url(#agc)" opacity="0.4"/>
+        <rect x="202" y="55" width="68" height="60" rx="4" fill="#162B52" opacity="0.12" stroke="#162B52" stroke-width="0.8"/>
+        <text x="236" y="80" font-family="sans-serif" font-size="7.5" fill="#162B52" text-anchor="middle" opacity="0.7">GROW</text>
+        <text x="236" y="93" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.5">living plant</text>
+        <text x="236" y="103" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.5">stores data</text>
+        <line x1="270" y1="85" x2="290" y2="85" stroke="#162B52" stroke-width="0.8" marker-end="url(#agc)" opacity="0.4"/>
+        <rect x="292" y="55" width="54" height="60" rx="4" fill="#162B52" opacity="0.1" stroke="#162B52" stroke-width="0.6"/>
+        <text x="319" y="82" font-family="sans-serif" font-size="7.5" fill="#162B52" text-anchor="middle" opacity="0.6">READ</text>
+        <text x="319" y="95" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">sequence</text>
+        <text x="319" y="105" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">→ decode</text>
+        <!-- Plant illustration -->
+        <line x1="180" y1="240" x2="180" y2="170" stroke="#162B52" stroke-width="2" opacity="0.4"/>
+        <path d="M 148 185 Q 162 170 180 178" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.4"/>
+        <path d="M 212 178 Q 198 165 180 175" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.4"/>
+        <path d="M 160 210 Q 168 195 180 202" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.4"/>
+        <path d="M 200 205 Q 192 192 180 200" fill="none" stroke="#162B52" stroke-width="1.5" opacity="0.4"/>
+        <!-- DNA dots on stem -->
+        <circle cx="180" cy="185" r="3" fill="#162B52" opacity="0.5"/>
+        <circle cx="180" cy="197" r="2" fill="#162B52" opacity="0.4"/>
+        <circle cx="180" cy="208" r="3" fill="#162B52" opacity="0.5"/>
+        <circle cx="180" cy="220" r="2" fill="#162B52" opacity="0.4"/>
+        <text x="180" y="258" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" opacity="0.4">Grow Your Own Cloud · data in living tissue</text>
+      </svg>
+      <div class="sc-title">Grow Your Own Cloud</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="engage">
+  <div class="eng-l fi">
+    <h2>From science<br><em>to system.</em></h2>
+    <p>We build when the science is ready to become something that works at scale — fermentation infrastructure, bio-chip systems, education platforms, and deployment tools.</p>
+    <a href="mailto:build@ecopatch.in" class="btn-c">Write to us ↗</a>
+  </div>
+  <div class="eng-r fi" style="transition-delay:.1s">
+    <p class="faq-label">Working with us</p>
+    <div class="faq"><q>What does a Build engagement look like?</q><p>Usually a problem where the science is clear but the system doesn't exist yet — or exists but doesn't scale. We come in at the design layer, building the process or platform from the science up.</p></div>
+    <div class="faq"><q>Do you work with biotech startups?</q><p>Yes. Particularly early-stage companies that have a result or a proof of concept and need to turn it into something that runs reliably at larger scale.</p></div>
+    <div class="faq"><q>What about digital and platform work?</q><p>We build platforms where the underlying content or curriculum is scientific — education infrastructure, data tools, lab-facing dashboards. Always science-led, not technology-led.</p></div>
+  </div>
+</div>
+
+<footer>
+  <span class="fl">Ecopatch</span>
+  <ul class="fn">
+    <li><a href="research.html">Research</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="build.html">Build</a></li>
+    <li><a href="studio.html">Studio</a></li>
+    <li><a href="kids.html">Kids</a></li>
+  </ul>
+  <span class="fr">ecopatch.in</span>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-inner">
+    <button class="modal-close" id="mclose">✕</button>
+    <div class="modal-svg-wrap" id="msvg"></div>
+    <div class="modal-meta"><div class="modal-title" id="mtitle"></div><div class="modal-tag" id="mtag"></div></div>
+  </div>
+</div>
+<script>
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
+(function t(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(t);})();
+document.querySelectorAll('a,.sc').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cr.style.width='38px';cr.style.height='38px';});
+  el.addEventListener('mouseleave',()=>{cr.style.width='28px';cr.style.height='28px';});
+});
+const modal=document.getElementById('modal');
+document.querySelectorAll('.sc').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.getElementById('msvg').innerHTML=c.querySelector('svg').outerHTML;
+    document.getElementById('mtitle').textContent=c.dataset.title;
+    document.getElementById('mtag').textContent=c.dataset.tag;
+    modal.classList.add('open');
+  });
+});
+document.getElementById('mclose').addEventListener('click',()=>modal.classList.remove('open'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');});},{threshold:0.08});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

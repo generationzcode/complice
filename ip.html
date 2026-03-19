@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecopatch IP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F4EFE4;--cream-2:#EDE6D4;--ink:#181815;--ink-mid:#62615D;--ink-faint:rgba(24,24,21,0.1);--ink-faint-2:rgba(24,24,21,0.05);--a:#3D2B00;--at:#F5F0E8;--serif:'Cormorant',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;cursor:none;overflow-x:hidden;}
+.cur{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;}
+#cd{width:5px;height:5px;background:var(--ink);transform:translate(-50%,-50%);}
+#cr{width:28px;height:28px;border:1px solid rgba(24,24,21,0.18);transform:translate(-50%,-50%);transition:width .25s,height .25s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 52px;background:var(--cream);border-bottom:1px solid var(--ink-faint);}
+.logo{font-family:var(--serif);font-size:19px;font-weight:500;text-decoration:none;color:var(--ink);letter-spacing:.02em;}
+.logo em{font-style:italic;font-weight:300;}
+.wing-pill{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:var(--a);color:var(--cream);padding:3px 9px;}
+.nav-links{display:flex;gap:22px;list-style:none;}
+.nav-links a{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color .2s;}
+.nav-links a:hover,.nav-links a.on{color:var(--ink);}
+.hero{min-height:56vh;padding:120px 52px 64px;background:var(--at);border-bottom:1px solid var(--ink-faint);display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:80px;}
+.hero-h1{font-family:var(--serif);font-size:clamp(48px,5.5vw,72px);font-weight:300;line-height:1.02;letter-spacing:-.015em;}
+.hero-h1 em{font-style:italic;color:var(--a);}
+.hero-body{font-size:14px;font-weight:300;color:var(--ink-mid);line-height:1.9;max-width:460px;}
+.grid-section{padding:56px 52px 72px;border-bottom:1px solid var(--ink-faint);}
+.grid-label{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mid);opacity:.55;margin-bottom:32px;}
+.sample-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:var(--at);border:1px solid rgba(61,43,0,0.1);aspect-ratio:4/3;display:flex;flex-direction:column;overflow:hidden;cursor:pointer;transition:border-color .2s;}
+.sc:hover{border-color:var(--a);}
+.sc svg{width:100%;height:100%;display:block;flex:1;}
+.sc-title{padding:8px 10px;font-size:9px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--a);border-top:1px solid rgba(61,43,0,0.1);background:var(--cream);flex-shrink:0;}
+.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(24,24,21,0.88);align-items:center;justify-content:center;}
+.modal.open{display:flex;}
+.modal-inner{background:var(--cream);max-width:680px;width:90%;max-height:88vh;overflow:auto;position:relative;}
+.modal-close{position:absolute;top:16px;right:18px;font-size:18px;cursor:pointer;color:var(--ink-mid);background:none;border:none;font-family:var(--sans);z-index:10;}
+.modal-svg-wrap{padding:32px 32px 0;display:flex;align-items:center;justify-content:center;}
+.modal-svg-wrap svg{width:100%;max-height:440px;}
+.modal-meta{padding:20px 32px 28px;}
+.modal-title{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:6px;}
+.modal-tag{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--a);}
+.engage{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ink-faint);}
+.eng-l{padding:56px 52px;background:var(--a);}
+.eng-l h2{font-family:var(--serif);font-size:40px;font-weight:300;color:var(--cream);line-height:1.05;letter-spacing:-.02em;margin-bottom:18px;}
+.eng-l h2 em{font-style:italic;}
+.eng-l p{font-size:13px;font-weight:300;color:rgba(244,239,228,.6);line-height:1.85;margin-bottom:28px;max-width:360px;}
+.btn-c{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--a);background:var(--cream);padding:11px 22px;}
+.eng-r{padding:56px 52px;}
+.faq-label{font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mid);opacity:.45;margin-bottom:20px;}
+.faq{padding:13px 0;border-bottom:1px solid var(--ink-faint);}
+.faq:last-child{border-bottom:none;}
+.faq q{font-size:13px;font-weight:400;color:var(--ink);display:block;margin-bottom:5px;quotes:none;}
+.faq p{font-size:12px;font-weight:300;color:var(--ink-mid);line-height:1.7;}
+footer{background:var(--ink);padding:26px 52px;display:flex;align-items:center;justify-content:space-between;}
+.fl{font-family:var(--serif);font-size:15px;color:rgba(244,239,228,.7);}
+.fn{display:flex;gap:20px;list-style:none;}
+.fn a{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(244,239,228,.28);text-decoration:none;transition:color .2s;}
+.fn a:hover{color:rgba(244,239,228,.6);}
+.fr{font-size:10px;color:rgba(244,239,228,.2);letter-spacing:.06em;}
+.fi{opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease;}
+.fi.v{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+<div class="cur" id="cd"></div>
+<div class="cur" id="cr"></div>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <a href="index.html" class="logo">Eco<em>patch</em></a>
+    <span class="wing-pill">IP</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="research.html">Research</a></li>
+    <li><a href="ip.html" class="on">IP</a></li>
+    <li><a href="build.html">Build</a></li>
+    <li><a href="studio.html">Studio</a></li>
+    <li><a href="kids.html">Kids</a></li>
+    <li><a href="mailto:hello@ecopatch.in">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1 class="hero-h1">Protecting<br>science.<br><em>Properly.</em></h1>
+  </div>
+  <div>
+    <p class="hero-body">We work on patent applications, landscape analysis, and IP strategy for science-based work — across biology, materials, diagnostics, and sanitation. Our applications carry a unifying thesis: that natural-origin solutions are not just effective but protectable. Below is a sample of what that looks like in practice.</p>
+  </div>
+</section>
+
+<section class="grid-section fi">
+  <p class="grid-label">IP work — sample outputs</p>
+  <div class="sample-grid">
+
+    <div class="sc" data-title="Paper microfluidic strip — food spoilage detection" data-tag="Diagnostics · Food safety · Patent application">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F5F0E8"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" letter-spacing="0.1em" opacity="0.6">PAPER MICROFLUIDIC STRIP</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.4">Food spoilage detection · lateral flow format</text>
+        <!-- Strip top view -->
+        <rect x="80" y="45" width="200" height="160" rx="8" fill="white" stroke="#3D2B00" stroke-width="1"/>
+        <!-- Sample pad -->
+        <rect x="88" y="53" width="184" height="28" rx="4" fill="#3D2B00" opacity="0.1" stroke="#3D2B00" stroke-width="0.5"/>
+        <text x="180" y="70" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" opacity="0.7">SAMPLE PAD</text>
+        <!-- Conjugate pad -->
+        <rect x="88" y="87" width="184" height="18" rx="2" fill="#3D2B00" opacity="0.06"/>
+        <line x1="88" y1="96" x2="272" y2="96" stroke="#3D2B00" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.4"/>
+        <text x="180" y="100" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">conjugate release zone</text>
+        <!-- Nitrocellulose membrane -->
+        <rect x="88" y="111" width="184" height="56" rx="2" fill="#3D2B00" opacity="0.04"/>
+        <!-- Test line -->
+        <line x1="100" y1="128" x2="260" y2="128" stroke="#3D2B00" stroke-width="2.5" opacity="0.7"/>
+        <text x="70" y="131" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="end" opacity="0.7">T</text>
+        <!-- Control line -->
+        <line x1="100" y1="150" x2="260" y2="150" stroke="#3D2B00" stroke-width="1.5" opacity="0.4"/>
+        <text x="70" y="153" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="end" opacity="0.5">C</text>
+        <!-- Absorbent pad -->
+        <rect x="88" y="173" width="184" height="24" rx="4" fill="#3D2B00" opacity="0.1" stroke="#3D2B00" stroke-width="0.5"/>
+        <text x="180" y="188" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" opacity="0.7">ABSORBENT PAD</text>
+        <!-- Flow arrow -->
+        <line x1="300" y1="100" x2="300" y2="170" stroke="#3D2B00" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.4"/>
+        <text x="312" y="140" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.5">flow →</text>
+        <!-- Result interpretation -->
+        <text x="30" y="230" font-family="sans-serif" font-size="7" fill="#3D2B00" opacity="0.5">T+C = negative · T only = positive · C only = invalid</text>
+        <text x="180" y="248" font-family="sans-serif" font-size="7.5" fill="#3D2B00" text-anchor="middle" opacity="0.4">Patent application · natural indicator chemistry</text>
+      </svg>
+      <div class="sc-title">Microfluidic strip — spoilage detection</div>
+    </div>
+
+    <div class="sc" data-title="Biofilm removal — natural compound mechanism" data-tag="Sanitation · Natural actives · Patent application">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F5F0E8"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" letter-spacing="0.1em" opacity="0.6">BIOFILM REMOVAL — NATURAL COMPOUND</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.4">Mechanism schematic · patent application</text>
+        <!-- Stage sequence -->
+        <!-- Stage 1: established biofilm -->
+        <text x="55" y="52" font-family="sans-serif" font-size="7.5" fill="#3D2B00" text-anchor="middle" opacity="0.7">Established biofilm</text>
+        <rect x="15" y="58" width="80" height="70" rx="2" fill="none" stroke="#3D2B00" stroke-width="0.5" opacity="0.3"/>
+        <rect x="15" y="110" width="80" height="18" fill="#3D2B00" opacity="0.2"/>
+        <text x="55" y="122" font-family="sans-serif" font-size="6" fill="#3D2B00" text-anchor="middle" opacity="0.6">surface</text>
+        <path d="M 15 95 Q 35 85 55 92 Q 75 99 95 90 L 95 110 L 15 110 Z" fill="#3D2B00" opacity="0.15"/>
+        <ellipse cx="30" cy="100" rx="7" ry="5" fill="#3D2B00" opacity="0.3"/>
+        <ellipse cx="48" cy="97" rx="7" ry="5" fill="#3D2B00" opacity="0.3"/>
+        <ellipse cx="68" cy="101" rx="7" ry="5" fill="#3D2B00" opacity="0.3"/>
+        <ellipse cx="85" cy="96" rx="6" ry="4" fill="#3D2B00" opacity="0.3"/>
+        <!-- Arrow -->
+        <text x="104" y="96" font-family="sans-serif" font-size="16" fill="#3D2B00" opacity="0.3">→</text>
+        <!-- Stage 2: compound application -->
+        <text x="195" y="52" font-family="sans-serif" font-size="7.5" fill="#3D2B00" text-anchor="middle" opacity="0.7">Compound applied</text>
+        <rect x="155" y="58" width="80" height="70" rx="2" fill="none" stroke="#3D2B00" stroke-width="0.5" opacity="0.3"/>
+        <rect x="155" y="110" width="80" height="18" fill="#3D2B00" opacity="0.2"/>
+        <path d="M 155 95 Q 175 85 195 92 Q 215 99 235 90 L 235 110 L 155 110 Z" fill="#3D2B00" opacity="0.1"/>
+        <!-- Compound droplets -->
+        <circle cx="165" cy="68" r="7" fill="#3D2B00" opacity="0.2" stroke="#3D2B00" stroke-width="0.5"/>
+        <circle cx="180" cy="62" r="5" fill="#3D2B00" opacity="0.2" stroke="#3D2B00" stroke-width="0.5"/>
+        <circle cx="200" cy="66" r="8" fill="#3D2B00" opacity="0.2" stroke="#3D2B00" stroke-width="0.5"/>
+        <circle cx="220" cy="60" r="6" fill="#3D2B00" opacity="0.2" stroke="#3D2B00" stroke-width="0.5"/>
+        <!-- Disruption lines -->
+        <line x1="165" y1="76" x2="175" y2="88" stroke="#3D2B00" stroke-width="0.5" stroke-dasharray="2 1" opacity="0.5"/>
+        <line x1="200" y1="75" x2="195" y2="86" stroke="#3D2B00" stroke-width="0.5" stroke-dasharray="2 1" opacity="0.5"/>
+        <!-- Arrow -->
+        <text x="244" y="96" font-family="sans-serif" font-size="16" fill="#3D2B00" opacity="0.3">→</text>
+        <!-- Stage 3: clean surface -->
+        <text x="318" y="52" font-family="sans-serif" font-size="7.5" fill="#3D2B00" text-anchor="middle" opacity="0.7">Clean surface</text>
+        <rect x="295" y="58" width="55" height="70" rx="2" fill="none" stroke="#3D2B00" stroke-width="0.5" opacity="0.3"/>
+        <rect x="295" y="110" width="55" height="18" fill="#3D2B00" opacity="0.2"/>
+        <text x="322" y="122" font-family="sans-serif" font-size="6" fill="#3D2B00" text-anchor="middle" opacity="0.6">surface</text>
+        <line x1="295" y1="110" x2="350" y2="110" stroke="#3D2B00" stroke-width="0.5" opacity="0.2"/>
+        <!-- EPS disruption detail -->
+        <text x="180" y="155" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" opacity="0.6">EPS matrix disruption pathway</text>
+        <rect x="20" y="162" width="320" height="1" fill="#3D2B00" opacity="0.1"/>
+        <text x="60" y="180" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">quorum sensing</text>
+        <text x="60" y="190" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">inhibition</text>
+        <line x1="100" y1="182" x2="120" y2="182" stroke="#3D2B00" stroke-width="0.5" opacity="0.3"/>
+        <text x="160" y="180" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">EPS</text>
+        <text x="160" y="190" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">degradation</text>
+        <line x1="200" y1="182" x2="220" y2="182" stroke="#3D2B00" stroke-width="0.5" opacity="0.3"/>
+        <text x="270" y="180" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">cell membrane</text>
+        <text x="270" y="190" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">disruption</text>
+        <text x="180" y="220" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.4">Natural compound — no synthetic biocides</text>
+        <text x="180" y="234" font-family="sans-serif" font-size="7.5" fill="#3D2B00" text-anchor="middle" opacity="0.5">Patent application · sanitation</text>
+      </svg>
+      <div class="sc-title">Biofilm removal — natural compound</div>
+    </div>
+
+    <div class="sc" data-title="Self-healing cement — biological mineralisation" data-tag="Materials · Construction · Patent application">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F5F0E8"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" letter-spacing="0.1em" opacity="0.6">SELF-HEALING CEMENT</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.4">Biological mineralisation additive · cross-section</text>
+        <!-- Concrete matrix -->
+        <rect x="20" y="45" width="320" height="140" fill="#3D2B00" opacity="0.08" stroke="#3D2B00" stroke-width="0.5"/>
+        <!-- Aggregate particles -->
+        <ellipse cx="55" cy="80" rx="15" ry="12" fill="#3D2B00" opacity="0.15"/>
+        <ellipse cx="120" cy="65" rx="18" ry="14" fill="#3D2B00" opacity="0.12"/>
+        <ellipse cx="200" cy="90" rx="14" ry="10" fill="#3D2B00" opacity="0.15"/>
+        <ellipse cx="275" cy="70" rx="16" ry="13" fill="#3D2B00" opacity="0.12"/>
+        <ellipse cx="85" cy="140" rx="12" ry="10" fill="#3D2B00" opacity="0.12"/>
+        <ellipse cx="250" cy="145" rx="15" ry="11" fill="#3D2B00" opacity="0.15"/>
+        <!-- Microcapsules (dormant) -->
+        <circle cx="160" cy="100" r="8" fill="none" stroke="#3D2B00" stroke-width="0.8" opacity="0.4"/>
+        <circle cx="160" cy="100" r="4" fill="#3D2B00" opacity="0.25"/>
+        <circle cx="310" cy="120" r="7" fill="none" stroke="#3D2B00" stroke-width="0.8" opacity="0.4"/>
+        <circle cx="310" cy="120" r="3.5" fill="#3D2B00" opacity="0.25"/>
+        <circle cx="40" cy="120" r="6" fill="none" stroke="#3D2B00" stroke-width="0.8" opacity="0.4"/>
+        <circle cx="40" cy="120" r="3" fill="#3D2B00" opacity="0.25"/>
+        <!-- Crack -->
+        <path d="M 150 45 L 155 75 L 148 110 L 153 145 L 157 185" fill="none" stroke="#3D2B00" stroke-width="2" opacity="0.6"/>
+        <!-- Crack ruptures capsule -->
+        <circle cx="160" cy="100" r="10" fill="none" stroke="#3D2B00" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.3"/>
+        <!-- Healing agent release -->
+        <path d="M 160 100 Q 170 88 175 80" fill="none" stroke="#3D2B00" stroke-width="0.5" opacity="0.5" stroke-dasharray="1 1"/>
+        <path d="M 160 100 Q 148 88 143 78" fill="none" stroke="#3D2B00" stroke-width="0.5" opacity="0.5" stroke-dasharray="1 1"/>
+        <!-- CaCO3 crystal growth in crack -->
+        <ellipse cx="152" cy="120" rx="6" ry="12" fill="#3D2B00" opacity="0.3"/>
+        <text x="185" y="118" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.6">CaCO₃</text>
+        <text x="185" y="128" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.5">precipitation</text>
+        <line x1="183" y1="120" x2="162" y2="120" stroke="#3D2B00" stroke-width="0.4" stroke-dasharray="2 2" opacity="0.3"/>
+        <!-- Bacterial source annotation -->
+        <line x1="155" y1="75" x2="90" y2="55" stroke="#3D2B00" stroke-width="0.4" stroke-dasharray="2 2" opacity="0.3"/>
+        <text x="25" y="50" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.6">dormant bacteria</text>
+        <text x="25" y="60" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.6">+ nutrient capsule</text>
+        <!-- Compressive strength data -->
+        <text x="180" y="208" font-family="sans-serif" font-size="7.5" fill="#3D2B00" text-anchor="middle" opacity="0.6">Biological mineralisation · natural healing pathway</text>
+        <text x="180" y="222" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.4">Patent application · cement additive</text>
+        <!-- Strength comparison -->
+        <text x="60" y="245" font-family="sans-serif" font-size="7" fill="#3D2B00" opacity="0.5">Uncracked</text>
+        <rect x="55" y="248" width="40" height="8" rx="1" fill="#3D2B00" opacity="0.3"/>
+        <text x="155" y="245" font-family="sans-serif" font-size="7" fill="#3D2B00" opacity="0.4">Cracked</text>
+        <rect x="150" y="248" width="18" height="8" rx="1" fill="#3D2B00" opacity="0.15"/>
+        <text x="255" y="245" font-family="sans-serif" font-size="7" fill="#3D2B00" opacity="0.5">Healed</text>
+        <rect x="250" y="248" width="35" height="8" rx="1" fill="#3D2B00" opacity="0.28"/>
+        <text x="350" y="256" font-family="sans-serif" font-size="6" fill="#3D2B00" opacity="0.3" text-anchor="end">compressive strength (relative)</text>
+      </svg>
+      <div class="sc-title">Self-healing cement — biological</div>
+    </div>
+
+    <div class="sc" data-title="Deep sea pressure sampler — instrument design" data-tag="Marine science · Instrumentation · Patent application">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F5F0E8"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" letter-spacing="0.1em" opacity="0.6">DEEP SEA PRESSURE SAMPLER</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.4">Instrument schematic · cross-section view</text>
+        <!-- Main body cylinder -->
+        <rect x="120" y="45" width="120" height="170" rx="10" fill="#3D2B00" opacity="0.08" stroke="#3D2B00" stroke-width="1"/>
+        <!-- Inner chamber -->
+        <rect x="132" y="70" width="96" height="110" rx="4" fill="white" opacity="0.6" stroke="#3D2B00" stroke-width="0.6"/>
+        <!-- Sample volume label -->
+        <text x="180" y="128" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" opacity="0.4">sample</text>
+        <text x="180" y="140" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" opacity="0.4">chamber</text>
+        <!-- Top valve assembly -->
+        <rect x="148" y="50" width="64" height="20" rx="3" fill="#3D2B00" opacity="0.2" stroke="#3D2B00" stroke-width="0.5"/>
+        <circle cx="180" cy="60" r="5" fill="#3D2B00" opacity="0.4"/>
+        <text x="240" y="58" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.6">trigger valve</text>
+        <line x1="213" y1="58" x2="225" y2="58" stroke="#3D2B00" stroke-width="0.4" stroke-dasharray="2 2" opacity="0.4"/>
+        <!-- Bottom valve -->
+        <rect x="148" y="195" width="64" height="20" rx="3" fill="#3D2B00" opacity="0.2" stroke="#3D2B00" stroke-width="0.5"/>
+        <circle cx="180" cy="205" r="5" fill="#3D2B00" opacity="0.4"/>
+        <text x="240" y="203" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.6">inlet valve</text>
+        <line x1="213" y1="203" x2="225" y2="203" stroke="#3D2B00" stroke-width="0.4" stroke-dasharray="2 2" opacity="0.4"/>
+        <!-- Pressure sensor -->
+        <rect x="122" y="115" width="10" height="20" rx="2" fill="#3D2B00" opacity="0.3"/>
+        <text x="80" y="127" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.6" text-anchor="end">pressure</text>
+        <text x="80" y="137" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.6" text-anchor="end">sensor</text>
+        <line x1="83" y1="125" x2="120" y2="122" stroke="#3D2B00" stroke-width="0.4" stroke-dasharray="2 2" opacity="0.4"/>
+        <!-- Temperature sensor -->
+        <rect x="228" y="135" width="10" height="25" rx="2" fill="#3D2B00" opacity="0.25"/>
+        <text x="250" y="145" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.5">temp.</text>
+        <line x1="237" y1="145" x2="248" y2="145" stroke="#3D2B00" stroke-width="0.4" stroke-dasharray="2 2" opacity="0.4"/>
+        <!-- Depth rating -->
+        <text x="180" y="238" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" opacity="0.5">Rated to 6000m · pressure-sealed design</text>
+        <text x="180" y="252" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.35">Patent application · deep sea sampling</text>
+      </svg>
+      <div class="sc-title">Deep sea pressure sampler</div>
+    </div>
+
+    <div class="sc" data-title="Natural cleaning compound — extraction pathway" data-tag="Cleaning · Natural actives · Patent application">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F5F0E8"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" letter-spacing="0.1em" opacity="0.6">NATURAL CLEANING COMPOUND</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.4">Extraction to application pathway</text>
+        <!-- Source plant -->
+        <path d="M 50 130 Q 30 100 50 70 Q 70 50 80 70 Q 90 50 105 70 Q 118 95 100 130 Z" fill="#3D2B00" opacity="0.15" stroke="#3D2B00" stroke-width="0.7"/>
+        <line x1="75" y1="130" x2="75" y2="160" stroke="#3D2B00" stroke-width="1.2" opacity="0.4"/>
+        <text x="75" y="148" font-family="sans-serif" font-size="6.5" fill="#3D2B00" text-anchor="middle" opacity="0.5">plant</text>
+        <text x="75" y="158" font-family="sans-serif" font-size="6.5" fill="#3D2B00" text-anchor="middle" opacity="0.4">source</text>
+        <!-- Arrow -->
+        <defs><marker id="ai" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#3D2B00" stroke-width="1.2"/></marker></defs>
+        <line x1="115" y1="100" x2="145" y2="100" stroke="#3D2B00" stroke-width="0.8" marker-end="url(#ai)" opacity="0.5"/>
+        <text x="130" y="92" font-family="sans-serif" font-size="6.5" fill="#3D2B00" text-anchor="middle" opacity="0.4">extract</text>
+        <!-- Extraction vessel -->
+        <rect x="148" y="75" width="40" height="50" rx="4" fill="#3D2B00" opacity="0.12" stroke="#3D2B00" stroke-width="0.7"/>
+        <path d="M 152 115 Q 168 105 185 115 L 185 122 L 152 122 Z" fill="#3D2B00" opacity="0.2"/>
+        <text x="168" y="105" font-family="sans-serif" font-size="6" fill="#3D2B00" text-anchor="middle" opacity="0.5">solvent</text>
+        <text x="168" y="115" font-family="sans-serif" font-size="6" fill="#3D2B00" text-anchor="middle" opacity="0.5">extract</text>
+        <!-- Arrow -->
+        <line x1="190" y1="100" x2="215" y2="100" stroke="#3D2B00" stroke-width="0.8" marker-end="url(#ai)" opacity="0.5"/>
+        <text x="202" y="92" font-family="sans-serif" font-size="6.5" fill="#3D2B00" text-anchor="middle" opacity="0.4">purify</text>
+        <!-- Active compound -->
+        <circle cx="235" cy="100" r="22" fill="#3D2B00" opacity="0.1" stroke="#3D2B00" stroke-width="0.8"/>
+        <text x="235" y="96" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.6">active</text>
+        <text x="235" y="106" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.6">fraction</text>
+        <!-- Arrow to application -->
+        <line x1="258" y1="100" x2="285" y2="100" stroke="#3D2B00" stroke-width="0.8" marker-end="url(#ai)" opacity="0.5"/>
+        <!-- Applications -->
+        <rect x="288" y="65" width="60" height="25" rx="3" fill="#3D2B00" opacity="0.1" stroke="#3D2B00" stroke-width="0.4"/>
+        <text x="318" y="81" font-family="sans-serif" font-size="6.5" fill="#3D2B00" text-anchor="middle" opacity="0.6">surface</text>
+        <rect x="288" y="95" width="60" height="25" rx="3" fill="#3D2B00" opacity="0.1" stroke="#3D2B00" stroke-width="0.4"/>
+        <text x="318" y="111" font-family="sans-serif" font-size="6.5" fill="#3D2B00" text-anchor="middle" opacity="0.6">formulation</text>
+        <rect x="288" y="125" width="60" height="25" rx="3" fill="#3D2B00" opacity="0.1" stroke="#3D2B00" stroke-width="0.4"/>
+        <text x="318" y="141" font-family="sans-serif" font-size="6.5" fill="#3D2B00" text-anchor="middle" opacity="0.6">industrial</text>
+        <!-- Characterisation data -->
+        <text x="180" y="178" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">MIC characterisation — surface activity — biodegradability</text>
+        <line x1="30" y1="188" x2="330" y2="188" stroke="#3D2B00" stroke-width="0.3" opacity="0.15"/>
+        <polyline points="40,220 70,212 110,200 150,190 190,188 230,188 270,188 310,188" fill="none" stroke="#3D2B00" stroke-width="1" opacity="0.4"/>
+        <text x="30" y="208" font-family="sans-serif" font-size="6" fill="#3D2B00" opacity="0.4" text-anchor="end">activity</text>
+        <text x="180" y="248" font-family="sans-serif" font-size="7.5" fill="#3D2B00" text-anchor="middle" opacity="0.4">Natural > synthetic · patent application</text>
+      </svg>
+      <div class="sc-title">Natural cleaning compound — pathway</div>
+    </div>
+
+    <div class="sc" data-title="Soil biosensing microorganism — IP landscape" data-tag="Soil science · Biosensor · Patent landscape">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#F5F0E8"/>
+        <text x="180" y="20" font-family="sans-serif" font-size="8" fill="#3D2B00" text-anchor="middle" letter-spacing="0.1em" opacity="0.6">PATENT LANDSCAPE — SOIL BIOSENSING</text>
+        <text x="180" y="31" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.4">Prior art mapping · filing opportunity identification</text>
+        <!-- Axes -->
+        <line x1="40" y1="45" x2="40" y2="195" stroke="#3D2B00" stroke-width="0.5" opacity="0.3"/>
+        <line x1="40" y1="195" x2="330" y2="195" stroke="#3D2B00" stroke-width="0.5" opacity="0.3"/>
+        <text x="185" y="212" font-family="sans-serif" font-size="6.5" fill="#3D2B00" text-anchor="middle" opacity="0.4">Filing year →</text>
+        <text x="30" y="52" font-family="sans-serif" font-size="6.5" fill="#3D2B00" text-anchor="end" opacity="0.4">scope</text>
+        <!-- Prior art dots -->
+        <circle cx="68" cy="160" r="5" fill="#3D2B00" opacity="0.2"/>
+        <circle cx="85" cy="140" r="6" fill="#3D2B00" opacity="0.2"/>
+        <circle cx="105" cy="155" r="4" fill="#3D2B00" opacity="0.2"/>
+        <circle cx="125" cy="130" r="7" fill="#3D2B00" opacity="0.2"/>
+        <circle cx="148" cy="145" r="5" fill="#3D2B00" opacity="0.2"/>
+        <circle cx="165" cy="125" r="6" fill="#3D2B00" opacity="0.2"/>
+        <circle cx="185" cy="138" r="4" fill="#3D2B00" opacity="0.2"/>
+        <circle cx="205" cy="120" r="5" fill="#3D2B00" opacity="0.2"/>
+        <circle cx="225" cy="132" r="6" fill="#3D2B00" opacity="0.2"/>
+        <circle cx="248" cy="115" r="4" fill="#3D2B00" opacity="0.2"/>
+        <circle cx="268" cy="128" r="5" fill="#3D2B00" opacity="0.2"/>
+        <!-- Filing opportunity zone -->
+        <rect x="230" y="58" width="95" height="52" fill="#3D2B00" opacity="0.07" stroke="#3D2B00" stroke-width="0.6" stroke-dasharray="3 2"/>
+        <text x="277" y="78" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.6">filing</text>
+        <text x="277" y="88" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.6">opportunity</text>
+        <text x="277" y="98" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">(biological</text>
+        <text x="277" y="108" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">reporter)</text>
+        <!-- Our filing -->
+        <circle cx="288" cy="72" r="8" fill="#3D2B00" opacity="0.55"/>
+        <text x="288" y="75" font-family="sans-serif" font-size="6" fill="white" text-anchor="middle">new</text>
+        <!-- Year labels -->
+        <text x="68" y="207" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.3">2016</text>
+        <text x="148" y="207" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.3">2019</text>
+        <text x="228" y="207" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.3">2022</text>
+        <text x="290" y="207" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.3">2024</text>
+        <!-- Legend -->
+        <circle cx="48" cy="232" r="4" fill="#3D2B00" opacity="0.2"/>
+        <text x="56" y="235" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.5">prior art</text>
+        <circle cx="130" cy="232" r="4" fill="#3D2B00" opacity="0.55"/>
+        <text x="138" y="235" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.5">new application</text>
+        <rect x="220" y="228" width="10" height="8" fill="#3D2B00" opacity="0.07" stroke="#3D2B00" stroke-width="0.5" stroke-dasharray="2 1"/>
+        <text x="234" y="235" font-family="sans-serif" font-size="6.5" fill="#3D2B00" opacity="0.5">opportunity zone</text>
+      </svg>
+      <div class="sc-title">Soil biosensing — patent landscape</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="engage">
+  <div class="eng-l fi">
+    <h2>Protect what<br><em>you've built.</em></h2>
+    <p>Patent strategy, landscape analysis, and filing for science-based work. We bring the scientific understanding that generalist attorneys don't.</p>
+    <a href="mailto:ip@ecopatch.in" class="btn-c">Write to us ↗</a>
+  </div>
+  <div class="eng-r fi" style="transition-delay:.1s">
+    <p class="faq-label">Working with us</p>
+    <div class="faq"><q>What do you look for in a potential filing?</q><p>Novelty, non-obviousness, and a clear description of what the invention actually is. We often find claim pathways that prior assessments missed — particularly in natural-compound and biological process work.</p></div>
+    <div class="faq"><q>Do you work with academic groups and startups?</q><p>Yes — both. Academic labs often have protectable work they haven't filed. Startups often have weak or incomplete filings. We work with both situations.</p></div>
+    <div class="faq"><q>What's the natural-versus-synthetic thesis?</q><p>A recurring theme in our portfolio — that natural-origin processes, compounds, and organisms can be as effective as synthetic alternatives, and are increasingly protectable on novel process and application claims.</p></div>
+  </div>
+</div>
+
+<footer>
+  <span class="fl">Ecopatch</span>
+  <ul class="fn">
+    <li><a href="research.html">Research</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="build.html">Build</a></li>
+    <li><a href="studio.html">Studio</a></li>
+    <li><a href="kids.html">Kids</a></li>
+  </ul>
+  <span class="fr">ecopatch.in</span>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-inner">
+    <button class="modal-close" id="mclose">✕</button>
+    <div class="modal-svg-wrap" id="msvg"></div>
+    <div class="modal-meta">
+      <div class="modal-title" id="mtitle"></div>
+      <div class="modal-tag" id="mtag"></div>
+    </div>
+  </div>
+</div>
+<script>
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
+(function t(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(t);})();
+document.querySelectorAll('a,.sc,.btn-c').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cr.style.width='38px';cr.style.height='38px';});
+  el.addEventListener('mouseleave',()=>{cr.style.width='28px';cr.style.height='28px';});
+});
+const modal=document.getElementById('modal');
+document.querySelectorAll('.sc').forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.getElementById('msvg').innerHTML=card.querySelector('svg').outerHTML;
+    document.getElementById('mtitle').textContent=card.dataset.title;
+    document.getElementById('mtag').textContent=card.dataset.tag;
+    modal.classList.add('open');
+  });
+});
+document.getElementById('mclose').addEventListener('click',()=>modal.classList.remove('open'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');});},{threshold:0.08});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

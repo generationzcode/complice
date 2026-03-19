@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecopatch Kids</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F4EFE4;--cream-2:#EDE6D4;--ink:#181815;--ink-mid:#62615D;--ink-faint:rgba(24,24,21,0.1);--a:#3A4A1C;--at:#EDF0E6;--serif:'Cormorant',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);cursor:none;overflow-x:hidden;}
+.cur{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;}
+#cd{width:5px;height:5px;background:var(--ink);transform:translate(-50%,-50%);}
+#cr{width:28px;height:28px;border:1px solid rgba(24,24,21,0.18);transform:translate(-50%,-50%);transition:width .25s,height .25s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 52px;background:var(--cream);border-bottom:1px solid var(--ink-faint);}
+.logo{font-family:var(--serif);font-size:19px;font-weight:500;text-decoration:none;color:var(--ink);letter-spacing:.02em;}
+.logo em{font-style:italic;font-weight:300;}
+.wing-pill{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:var(--a);color:var(--cream);padding:3px 9px;}
+.nav-links{display:flex;gap:22px;list-style:none;}
+.nav-links a{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color .2s;}
+.nav-links a:hover,.nav-links a.on{color:var(--ink);}
+
+/* Hero — warmer, bigger type */
+.hero{min-height:60vh;padding:120px 52px 72px;background:var(--at);border-bottom:1px solid var(--ink-faint);display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:80px;}
+.hero-h1{font-family:var(--serif);font-size:clamp(52px,6vw,84px);font-weight:300;line-height:1.0;letter-spacing:-.02em;}
+.hero-h1 em{font-style:italic;color:var(--a);}
+.hero-right{}
+.hero-body{font-size:15px;font-weight:300;color:var(--ink-mid);line-height:1.9;max-width:440px;margin-bottom:32px;}
+.hero-audience{display:flex;flex-wrap:wrap;gap:8px;}
+.aud-tag{font-size:10px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(58,74,28,0.3);color:var(--a);}
+
+/* Programme cards */
+.programme-section{padding:64px 52px;border-bottom:1px solid var(--ink-faint);}
+.section-label{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mid);opacity:.55;margin-bottom:40px;}
+.prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:48px;}
+.prog-card{background:var(--at);border:1px solid rgba(58,74,28,0.12);padding:32px 28px;transition:border-color .2s;}
+.prog-card:hover{border-color:var(--a);}
+.prog-num{font-size:9px;letter-spacing:.12em;color:var(--a);opacity:.5;margin-bottom:14px;}
+.prog-title{font-family:var(--serif);font-size:24px;font-weight:400;color:var(--ink);margin-bottom:10px;line-height:1.1;}
+.prog-title em{font-style:italic;}
+.prog-body{font-size:12px;font-weight:300;color:var(--ink-mid);line-height:1.75;}
+.prog-dot{width:5px;height:5px;border-radius:50%;background:var(--a);margin-top:20px;}
+
+/* Sample outputs — illustrated -->
+.sample-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:var(--at);border:1px solid rgba(58,74,28,0.1);aspect-ratio:4/3;display:flex;flex-direction:column;overflow:hidden;cursor:pointer;transition:border-color .2s;}
+.sc:hover{border-color:var(--a);}
+.sc svg{width:100%;height:100%;display:block;flex:1;}
+.sc-title{padding:8px 10px;font-size:9px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--a);border-top:1px solid rgba(58,74,28,0.1);background:var(--cream);flex-shrink:0;}
+
+.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(24,24,21,0.88);align-items:center;justify-content:center;}
+.modal.open{display:flex;}
+.modal-inner{background:var(--cream);max-width:680px;width:90%;max-height:88vh;overflow:auto;position:relative;}
+.modal-close{position:absolute;top:16px;right:18px;font-size:18px;cursor:pointer;color:var(--ink-mid);background:none;border:none;}
+.modal-svg-wrap{padding:32px;}
+.modal-svg-wrap svg{width:100%;max-height:440px;}
+.modal-meta{padding:0 32px 28px;}
+.modal-title{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:6px;}
+.modal-tag{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--a);}
+
+/* NGO / Institutions bar */
+.partner-bar{padding:48px 52px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;border-bottom:1px solid var(--ink-faint);background:var(--a);}
+.partner-bar h2{font-family:var(--serif);font-size:36px;font-weight:300;color:var(--cream);line-height:1.05;}
+.partner-bar h2 em{font-style:italic;}
+.partner-bar p{font-size:13px;font-weight:300;color:rgba(244,239,228,.6);line-height:1.85;margin-bottom:22px;}
+.btn-k{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--a);background:var(--cream);padding:11px 22px;}
+
+footer{background:var(--ink);padding:26px 52px;display:flex;align-items:center;justify-content:space-between;}
+.fl{font-family:var(--serif);font-size:15px;color:rgba(244,239,228,.7);}
+.fn{display:flex;gap:20px;list-style:none;}
+.fn a{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(244,239,228,.28);text-decoration:none;transition:color .2s;}
+.fn a:hover{color:rgba(244,239,228,.6);}
+.fr{font-size:10px;color:rgba(244,239,228,.2);}
+.fi{opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease;}
+.fi.v{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+<div class="cur" id="cd"></div><div class="cur" id="cr"></div>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <a href="index.html" class="logo">Eco<em>patch</em></a>
+    <span class="wing-pill">Kids</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="research.html">Research</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="build.html">Build</a></li>
+    <li><a href="studio.html">Studio</a></li>
+    <li><a href="kids.html" class="on">Kids</a></li>
+    <li><a href="mailto:hello@ecopatch.in">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1 class="hero-h1">Science for<br>the next<br><em>generation.</em></h1>
+  </div>
+  <div class="hero-right">
+    <p class="hero-body">We design and run science education programmes — for schools, NGOs, and institutions that want children to encounter science the way scientists do: with real questions, real materials, and real results.</p>
+    <div class="hero-audience">
+      <span class="aud-tag">Schools</span>
+      <span class="aud-tag">Teachers</span>
+      <span class="aud-tag">NGOs</span>
+      <span class="aud-tag">Institutions</span>
+      <span class="aud-tag">After-school</span>
+    </div>
+  </div>
+</section>
+
+<section class="programme-section fi">
+  <p class="section-label">Programme areas</p>
+  <div class="prog-grid">
+    <div class="prog-card">
+      <div class="prog-num">01</div>
+      <div class="prog-title">Biology<br><em>in the field</em></div>
+      <div class="prog-body">Soil, water, plants, and microbes — observed directly, not from a diagram. Programmes built around environments children already live in.</div>
+      <div class="prog-dot"></div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-num">02</div>
+      <div class="prog-title">Food<br><em>science</em></div>
+      <div class="prog-body">Fermentation, nutrition, and what happens to food over time. Experiments children can run in a classroom or kitchen without specialised equipment.</div>
+      <div class="prog-dot"></div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-num">03</div>
+      <div class="prog-title">Science<br><em>as inquiry</em></div>
+      <div class="prog-body">Methods, questions, hypotheses, and surprise. A programme designed around the practice of science, not just its conclusions. For children aged 8–16.</div>
+      <div class="prog-dot"></div>
+    </div>
+  </div>
+
+  <p class="section-label" style="margin-top:16px;">Programme materials — sample outputs</p>
+  <div class="sample-grid">
+
+    <div class="sc" data-title="What lives in soil? — field biology worksheet" data-tag="Education · Soil science · Ages 10–14">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#EDF0E6"/>
+        <!-- Worksheet layout -->
+        <rect x="30" y="18" width="300" height="232" rx="3" fill="white" opacity="0.8" stroke="#3A4A1C" stroke-width="0.5"/>
+        <!-- Colourful header -->
+        <rect x="30" y="18" width="300" height="40" rx="3" fill="#3A4A1C" opacity="0.8"/>
+        <text x="180" y="40" font-family="serif" font-size="11" fill="white" text-anchor="middle" opacity="0.9">What lives in soil?</text>
+        <!-- Illustration area -->
+        <rect x="42" y="66" width="130" height="110" rx="3" fill="#3A4A1C" opacity="0.06"/>
+        <!-- Soil cross-section illustration -->
+        <rect x="42" y="130" width="130" height="46" fill="#3A4A1C" opacity="0.12"/>
+        <rect x="42" y="150" width="130" height="26" fill="#3A4A1C" opacity="0.08"/>
+        <!-- Organisms -->
+        <path d="M 65 128 Q 72 118 80 128 Q 88 138 96 128 Q 104 118 112 128" fill="none" stroke="#3A4A1C" stroke-width="2" opacity="0.5"/>
+        <text x="80" y="120" font-family="sans-serif" font-size="7" fill="#3A4A1C" opacity="0.55" text-anchor="middle">earthworm</text>
+        <circle cx="130" cy="115" r="8" fill="none" stroke="#3A4A1C" stroke-width="1" opacity="0.4"/>
+        <circle cx="130" cy="115" r="4" fill="#3A4A1C" opacity="0.2"/>
+        <text x="148" y="118" font-family="sans-serif" font-size="7" fill="#3A4A1C" opacity="0.45">nematode</text>
+        <!-- Observation boxes on right -->
+        <text x="190" y="80" font-family="sans-serif" font-size="7.5" fill="#3A4A1C" opacity="0.6">What did you find?</text>
+        <rect x="185" y="84" width="135" height="22" rx="2" fill="#3A4A1C" opacity="0.05" stroke="#3A4A1C" stroke-width="0.4"/>
+        <text x="195" y="97" font-family="sans-serif" font-size="7" fill="#3A4A1C" opacity="0.3">Organism 1: ___________</text>
+        <rect x="185" y="110" width="135" height="22" rx="2" fill="#3A4A1C" opacity="0.05" stroke="#3A4A1C" stroke-width="0.4"/>
+        <text x="195" y="123" font-family="sans-serif" font-size="7" fill="#3A4A1C" opacity="0.3">Organism 2: ___________</text>
+        <rect x="185" y="136" width="135" height="22" rx="2" fill="#3A4A1C" opacity="0.05" stroke="#3A4A1C" stroke-width="0.4"/>
+        <text x="195" y="149" font-family="sans-serif" font-size="7" fill="#3A4A1C" opacity="0.3">Organism 3: ___________</text>
+        <!-- Count section -->
+        <text x="190" y="172" font-family="sans-serif" font-size="7.5" fill="#3A4A1C" opacity="0.6">Count per 100g of soil</text>
+        <rect x="185" y="176" width="60" height="30" rx="2" fill="#3A4A1C" opacity="0.05" stroke="#3A4A1C" stroke-width="0.4"/>
+        <rect x="260" y="176" width="60" height="30" rx="2" fill="#3A4A1C" opacity="0.05" stroke="#3A4A1C" stroke-width="0.4"/>
+        <!-- Big question -->
+        <line x1="42" y1="188" x2="318" y2="188" stroke="#3A4A1C" stroke-width="0.5" opacity="0.15"/>
+        <text x="180" y="204" font-family="sans-serif" font-size="8" fill="#3A4A1C" text-anchor="middle" opacity="0.55">Why does healthy soil have more organisms?</text>
+        <rect x="42" y="210" width="276" height="30" rx="2" fill="#3A4A1C" opacity="0.04" stroke="#3A4A1C" stroke-width="0.3"/>
+        <text x="55" y="229" font-family="sans-serif" font-size="7" fill="#3A4A1C" opacity="0.25">Your answer...</text>
+      </svg>
+      <div class="sc-title">Soil biology — field worksheet</div>
+    </div>
+
+    <div class="sc" data-title="Make your own yoghurt — fermentation experiment" data-tag="Education · Food science · Ages 8–12">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#EDF0E6"/>
+        <rect x="25" y="15" width="310" height="240" rx="4" fill="white" opacity="0.8" stroke="#3A4A1C" stroke-width="0.5"/>
+        <rect x="25" y="15" width="310" height="42" rx="4" fill="#3A4A1C" opacity="0.7"/>
+        <text x="180" y="34" font-family="serif" font-size="10" fill="white" text-anchor="middle" opacity="0.9">Make Your Own Yoghurt</text>
+        <text x="180" y="48" font-family="sans-serif" font-size="7" fill="white" text-anchor="middle" opacity="0.6">A fermentation experiment</text>
+        <!-- Step by step visual -->
+        <text x="42" y="72" font-family="sans-serif" font-size="7.5" fill="#3A4A1C" opacity="0.6">What you need</text>
+        <circle cx="42" cy="87" r="8" fill="#3A4A1C" opacity="0.12"/>
+        <text x="42" y="90" font-family="sans-serif" font-size="6" fill="#3A4A1C" text-anchor="middle" opacity="0.6">milk</text>
+        <circle cx="68" cy="87" r="8" fill="#3A4A1C" opacity="0.12"/>
+        <text x="68" y="90" font-family="sans-serif" font-size="6" fill="#3A4A1C" text-anchor="middle" opacity="0.6">starter</text>
+        <circle cx="94" cy="87" r="8" fill="#3A4A1C" opacity="0.12"/>
+        <text x="94" y="90" font-family="sans-serif" font-size="6" fill="#3A4A1C" text-anchor="middle" opacity="0.6">jar</text>
+        <circle cx="120" cy="87" r="8" fill="#3A4A1C" opacity="0.12"/>
+        <text x="120" y="90" font-family="sans-serif" font-size="6" fill="#3A4A1C" text-anchor="middle" opacity="0.6">warm</text>
+        <!-- Steps -->
+        <line x1="35" y1="106" x2="335" y2="106" stroke="#3A4A1C" stroke-width="0.4" opacity="0.15"/>
+        <text x="42" y="120" font-family="sans-serif" font-size="7.5" fill="#3A4A1C" opacity="0.6">Steps</text>
+        <!-- Step 1 -->
+        <circle cx="42" cy="140" r="9" fill="#3A4A1C" opacity="0.7"/>
+        <text x="42" y="143" font-family="sans-serif" font-size="8" fill="white" text-anchor="middle">1</text>
+        <rect x="58" y="131" width="232" height="18" rx="2" fill="#3A4A1C" opacity="0.05"/>
+        <text x="65" y="143" font-family="sans-serif" font-size="7.5" fill="#3A4A1C" opacity="0.6">Heat milk to 45°C. Let it cool slightly.</text>
+        <!-- Step 2 -->
+        <circle cx="42" cy="162" r="9" fill="#3A4A1C" opacity="0.5"/>
+        <text x="42" y="165" font-family="sans-serif" font-size="8" fill="white" text-anchor="middle">2</text>
+        <text x="65" y="165" font-family="sans-serif" font-size="7.5" fill="#3A4A1C" opacity="0.55">Add 2 tbsp of plain yoghurt. Stir gently.</text>
+        <!-- Step 3 -->
+        <circle cx="42" cy="183" r="9" fill="#3A4A1C" opacity="0.35"/>
+        <text x="42" y="186" font-family="sans-serif" font-size="8" fill="white" text-anchor="middle">3</text>
+        <text x="65" y="186" font-family="sans-serif" font-size="7.5" fill="#3A4A1C" opacity="0.5">Pour into a jar. Keep warm for 8 hours.</text>
+        <!-- Question box -->
+        <rect x="35" y="200" width="290" height="45" rx="3" fill="#3A4A1C" opacity="0.06" stroke="#3A4A1C" stroke-width="0.4"/>
+        <text x="48" y="215" font-family="sans-serif" font-size="7.5" fill="#3A4A1C" opacity="0.6">What do the bacteria do to the milk?</text>
+        <line x1="48" y1="228" x2="315" y2="228" stroke="#3A4A1C" stroke-width="0.4" opacity="0.2"/>
+        <line x1="48" y1="237" x2="315" y2="237" stroke="#3A4A1C" stroke-width="0.4" opacity="0.2"/>
+      </svg>
+      <div class="sc-title">Yoghurt fermentation — experiment card</div>
+    </div>
+
+    <div class="sc" data-title="The scientific method — illustrated poster" data-tag="Education · Science method · Ages 10–16">
+      <svg viewBox="0 0 360 270" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="270" fill="#EDF0E6"/>
+        <rect x="20" y="15" width="320" height="240" rx="4" fill="white" opacity="0.75" stroke="#3A4A1C" stroke-width="0.5"/>
+        <rect x="20" y="15" width="320" height="36" rx="4" fill="#3A4A1C" opacity="0.75"/>
+        <text x="180" y="37" font-family="serif" font-size="11" fill="white" text-anchor="middle" opacity="0.9">How does science work?</text>
+        <!-- Circular diagram of scientific method -->
+        <!-- Circle -->
+        <circle cx="180" cy="155" r="80" fill="none" stroke="#3A4A1C" stroke-width="0.6" opacity="0.15"/>
+        <!-- Steps around circle -->
+        <!-- Observe -->
+        <circle cx="180" cy="72" r="18" fill="#3A4A1C" opacity="0.12" stroke="#3A4A1C" stroke-width="0.5"/>
+        <text x="180" y="69" font-family="sans-serif" font-size="6.5" fill="#3A4A1C" text-anchor="middle" opacity="0.7">observe</text>
+        <text x="180" y="79" font-family="sans-serif" font-size="5.5" fill="#3A4A1C" text-anchor="middle" opacity="0.5">notice things</text>
+        <!-- Question -->
+        <circle cx="253" cy="110" r="18" fill="#3A4A1C" opacity="0.12" stroke="#3A4A1C" stroke-width="0.5"/>
+        <text x="253" y="107" font-family="sans-serif" font-size="6.5" fill="#3A4A1C" text-anchor="middle" opacity="0.7">question</text>
+        <text x="253" y="117" font-family="sans-serif" font-size="5.5" fill="#3A4A1C" text-anchor="middle" opacity="0.5">ask why</text>
+        <!-- Hypothesise -->
+        <circle cx="253" cy="200" r="18" fill="#3A4A1C" opacity="0.12" stroke="#3A4A1C" stroke-width="0.5"/>
+        <text x="253" y="197" font-family="sans-serif" font-size="6.5" fill="#3A4A1C" text-anchor="middle" opacity="0.7">predict</text>
+        <text x="253" y="207" font-family="sans-serif" font-size="5.5" fill="#3A4A1C" text-anchor="middle" opacity="0.5">make a guess</text>
+        <!-- Test -->
+        <circle cx="180" cy="238" r="18" fill="#3A4A1C" opacity="0.15" stroke="#3A4A1C" stroke-width="0.7"/>
+        <text x="180" y="235" font-family="sans-serif" font-size="6.5" fill="#3A4A1C" text-anchor="middle" opacity="0.8">test it</text>
+        <text x="180" y="245" font-family="sans-serif" font-size="5.5" fill="#3A4A1C" text-anchor="middle" opacity="0.6">experiment</text>
+        <!-- Learn -->
+        <circle cx="107" cy="200" r="18" fill="#3A4A1C" opacity="0.12" stroke="#3A4A1C" stroke-width="0.5"/>
+        <text x="107" y="197" font-family="sans-serif" font-size="6.5" fill="#3A4A1C" text-anchor="middle" opacity="0.7">analyse</text>
+        <text x="107" y="207" font-family="sans-serif" font-size="5.5" fill="#3A4A1C" text-anchor="middle" opacity="0.5">what happened?</text>
+        <!-- Share -->
+        <circle cx="107" cy="110" r="18" fill="#3A4A1C" opacity="0.12" stroke="#3A4A1C" stroke-width="0.5"/>
+        <text x="107" y="107" font-family="sans-serif" font-size="6.5" fill="#3A4A1C" text-anchor="middle" opacity="0.7">share</text>
+        <text x="107" y="117" font-family="sans-serif" font-size="5.5" fill="#3A4A1C" text-anchor="middle" opacity="0.5">tell others</text>
+        <!-- Arrows between steps -->
+        <defs><marker id="ak" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="4" markerHeight="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#3A4A1C" stroke-width="1.2"/></marker></defs>
+        <path d="M 196 85 Q 228 90 240 98" fill="none" stroke="#3A4A1C" stroke-width="0.7" marker-end="url(#ak)" opacity="0.35"/>
+        <path d="M 253 128 Q 253 165 253 182" fill="none" stroke="#3A4A1C" stroke-width="0.7" marker-end="url(#ak)" opacity="0.35"/>
+        <path d="M 238 210 Q 215 228 198 238" fill="none" stroke="#3A4A1C" stroke-width="0.7" marker-end="url(#ak)" opacity="0.35"/>
+        <path d="M 162 238 Q 138 235 122 212" fill="none" stroke="#3A4A1C" stroke-width="0.7" marker-end="url(#ak)" opacity="0.35"/>
+        <path d="M 107 182 Q 107 145 107 128" fill="none" stroke="#3A4A1C" stroke-width="0.7" marker-end="url(#ak)" opacity="0.35"/>
+        <path d="M 120 100 Q 148 85 162 80" fill="none" stroke="#3A4A1C" stroke-width="0.7" marker-end="url(#ak)" opacity="0.35"/>
+      </svg>
+      <div class="sc-title">Scientific method — classroom poster</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="partner-bar fi">
+  <div>
+    <h2>Working with<br><em>schools and NGOs.</em></h2>
+  </div>
+  <div>
+    <p>We partner with schools, after-school programmes, and science access organisations. We design the materials, train the facilitators, and run the programmes ourselves where needed.</p>
+    <a href="mailto:kids@ecopatch.in" class="btn-k">Write to us ↗</a>
+  </div>
+</div>
+
+<footer>
+  <span class="fl">Ecopatch</span>
+  <ul class="fn">
+    <li><a href="research.html">Research</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="build.html">Build</a></li>
+    <li><a href="studio.html">Studio</a></li>
+    <li><a href="kids.html">Kids</a></li>
+  </ul>
+  <span class="fr">ecopatch.in</span>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-inner">
+    <button class="modal-close" id="mclose">✕</button>
+    <div class="modal-svg-wrap" id="msvg"></div>
+    <div class="modal-meta"><div class="modal-title" id="mtitle"></div><div class="modal-tag" id="mtag"></div></div>
+  </div>
+</div>
+<script>
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
+(function t(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(t);})();
+document.querySelectorAll('a,.sc,.prog-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cr.style.width='38px';cr.style.height='38px';});
+  el.addEventListener('mouseleave',()=>{cr.style.width='28px';cr.style.height='28px';});
+});
+const modal=document.getElementById('modal');
+document.querySelectorAll('.sc').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.getElementById('msvg').innerHTML=c.querySelector('svg').outerHTML;
+    document.getElementById('mtitle').textContent=c.dataset.title;
+    document.getElementById('mtag').textContent=c.dataset.tag;
+    modal.classList.add('open');
+  });
+});
+document.getElementById('mclose').addEventListener('click',()=>modal.classList.remove('open'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');});},{threshold:0.08});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
