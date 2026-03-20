@@ -27,6 +27,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-links{display:flex;gap:24px;list-style:none;align-items:center;}
 .nav-links a{font-size:11px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color .2s;}
 .nav-links a:hover{color:var(--ink);}
+.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.nav-burger span{display:block;width:22px;height:1.5px;background:var(--ink);transition:all .25s;}
+.nav-mobile{display:none;position:fixed;top:57px;left:0;right:0;bottom:0;background:var(--cream);z-index:99;padding:32px 28px;flex-direction:column;gap:0;border-top:1px solid var(--ink-faint);}
+.nav-mobile.open{display:flex;}
+.nav-mobile a{font-size:28px;font-family:var(--serif);font-weight:300;color:var(--ink);text-decoration:none;padding:14px 0;border-bottom:1px solid var(--ink-faint);display:block;}
+.nav-mobile a em{font-style:italic;}
 
 /* HERO */
 .hero{min-height:100vh;padding:130px 52px 80px;display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:80px;border-bottom:1px solid var(--ink-faint);}
@@ -94,6 +100,36 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
 
 .fi{opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease;}
 .fi.v{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  .cur{display:none;}
+  body{cursor:auto;}
+  nav{padding:14px 20px;}
+  .nav-links{display:none;}
+  .hero{grid-template-columns:1fr;padding:96px 20px 48px;gap:28px;min-height:auto;}
+  .hero-h1{font-size:clamp(40px,10vw,60px);}
+  .hero-desc{font-size:14px;margin-bottom:28px;}
+  .hero-wings{gap:6px;}
+  .wings{grid-template-columns:1fr 1fr;border-top:1px solid var(--ink-faint);}
+  .wing{padding:22px 18px;border-right:1px solid var(--ink-faint);border-bottom:1px solid var(--ink-faint);}
+  .wing:nth-child(even){border-right:none;}
+  .wing:last-child{grid-column:1/-1;border-right:none;}
+  .wing-name{font-size:18px;}
+  .work-section{padding:40px 20px 56px;}
+  .work-grid{grid-template-columns:1fr 1fr;}
+  .engage-bar{grid-template-columns:1fr;padding:40px 20px;gap:24px;}
+  .engage-bar h2{font-size:34px;}
+  .kids-bar{padding:28px 20px;flex-direction:column;align-items:flex-start;gap:16px;}
+  footer{padding:22px 20px;flex-direction:column;align-items:flex-start;gap:14px;}
+  .fn{flex-wrap:wrap;gap:12px;}
+}
+@media(max-width:420px){
+  .hero-h1{font-size:36px;}
+  .wings{grid-template-columns:1fr;}
+  .wing:nth-child(even){border-right:1px solid var(--ink-faint);}
+  .wing:nth-child(odd){border-right:1px solid var(--ink-faint);}
+  .work-grid{grid-template-columns:1fr 1fr;}
+}
 </style>
 </head>
 <body>
@@ -110,7 +146,18 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
     <li><a href="kids.html">Kids</a></li>
     <li><a href="mailto:hello@ecopatch.in">Contact</a></li>
   </ul>
+  <button class="nav-burger" id="burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-mobile" id="navmobile">
+  <a href="research.html">Research</a>
+  <a href="ip.html">IP</a>
+  <a href="build.html">Build</a>
+  <a href="studio.html">Studio</a>
+  <a href="kids.html">Kids</a>
+  <a href="mailto:hello@ecopatch.in">Contact</a>
+</div>
 
 <section class="hero">
   <div>
@@ -472,6 +519,26 @@ document.querySelectorAll('a,.sample,.wing').forEach(el=>{
 });
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');});},{threshold:0.08});
 document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+// Mobile nav
+const burger=document.getElementById('burger');
+const navmobile=document.getElementById('navmobile');
+burger.addEventListener('click',()=>{
+  navmobile.classList.toggle('open');
+  const spans=burger.querySelectorAll('span');
+  if(navmobile.classList.contains('open')){
+    spans[0].style.transform='translateY(6.5px) rotate(45deg)';
+    spans[1].style.opacity='0';
+    spans[2].style.transform='translateY(-6.5px) rotate(-45deg)';
+  } else {
+    spans[0].style.transform='';spans[1].style.opacity='';spans[2].style.transform='';
+  }
+});
+// Show burger on mobile
+if(window.innerWidth<=768){burger.style.display='flex';}
+window.addEventListener('resize',()=>{
+  if(window.innerWidth<=768){burger.style.display='flex';}
+  else{burger.style.display='none';navmobile.classList.remove('open');}
+});
 </script>
 </body>
 </html>

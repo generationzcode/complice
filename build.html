@@ -22,6 +22,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-links{display:flex;gap:22px;list-style:none;}
 .nav-links a{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color .2s;}
 .nav-links a:hover,.nav-links a.on{color:var(--ink);}
+.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.nav-burger span{display:block;width:22px;height:1.5px;background:var(--ink);transition:all .25s;}
+.nav-mobile{display:none;position:fixed;top:57px;left:0;right:0;bottom:0;background:var(--cream);z-index:99;padding:32px 28px;flex-direction:column;border-top:1px solid var(--ink-faint);}
+.nav-mobile.open{display:flex;}
+.nav-mobile a{font-size:26px;font-family:var(--serif);font-weight:300;color:var(--ink);text-decoration:none;padding:13px 0;border-bottom:1px solid var(--ink-faint);display:block;}
+.nav-mobile a em{font-style:italic;}
 .hero{min-height:56vh;padding:120px 52px 64px;background:var(--at);border-bottom:1px solid var(--ink-faint);display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:80px;}
 .hero-h1{font-family:var(--serif);font-size:clamp(48px,5.5vw,72px);font-weight:300;line-height:1.02;letter-spacing:-.015em;}
 .hero-h1 em{font-style:italic;color:var(--a);}
@@ -62,6 +68,30 @@ footer{background:var(--ink);padding:26px 52px;display:flex;align-items:center;j
 .fr{font-size:10px;color:rgba(244,239,228,.2);}
 .fi{opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease;}
 .fi.v{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  .cur{display:none;}
+  body{cursor:auto;}
+  nav{padding:14px 20px;}
+  .nav-links{display:none;}
+  .nav-burger{display:flex;}
+  .hero{grid-template-columns:1fr;padding:90px 20px 44px;gap:24px;min-height:auto;}
+  .hero-h1{font-size:clamp(38px,9vw,56px);}
+  .hero-body{font-size:13px;max-width:100%;}
+  .grid-section{padding:36px 20px 52px;}
+  .sample-grid{grid-template-columns:1fr 1fr;}
+  .engage{grid-template-columns:1fr;}
+  .eng-l{padding:40px 20px;}
+  .eng-l h2{font-size:32px;}
+  .eng-r{padding:36px 20px;}
+  footer{padding:22px 20px;flex-direction:column;align-items:flex-start;gap:14px;}
+  .fn{flex-wrap:wrap;gap:12px;}
+}
+@media(max-width:420px){
+  .hero-h1{font-size:34px;}
+  .sample-grid{grid-template-columns:1fr;}
+  .sc{aspect-ratio:3/2;}
+}
 </style>
 </head>
 <body>
@@ -79,7 +109,18 @@ footer{background:var(--ink);padding:26px 52px;display:flex;align-items:center;j
     <li><a href="kids.html">Kids</a></li>
     <li><a href="mailto:hello@ecopatch.in">Contact</a></li>
   </ul>
+  <button class="nav-burger" id="burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-mobile" id="navmobile">
+  <a href="research.html">Research</a>
+  <a href="ip.html">IP</a>
+  <a href="build.html">Build</a>
+  <a href="studio.html">Studio</a>
+  <a href="kids.html">Kids</a>
+  <a href="mailto:hello@ecopatch.in">Contact</a>
+</div>
 
 <section class="hero">
   <div>
@@ -377,6 +418,28 @@ modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('o
 document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');});},{threshold:0.08});
 document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+// Mobile nav
+const burger=document.getElementById('burger');
+const navmobile=document.getElementById('navmobile');
+if(burger){
+  burger.addEventListener('click',()=>{
+    navmobile.classList.toggle('open');
+    const spans=burger.querySelectorAll('span');
+    if(navmobile.classList.contains('open')){
+      spans[0].style.transform='translateY(6.5px) rotate(45deg)';
+      spans[1].style.opacity='0';
+      spans[2].style.transform='translateY(-6.5px) rotate(-45deg)';
+    } else {
+      spans[0].style.transform='';spans[1].style.opacity='';spans[2].style.transform='';
+    }
+  });
+  if(window.innerWidth<=768){burger.style.display='flex';}
+  window.addEventListener('resize',()=>{
+    if(window.innerWidth<=768){burger.style.display='flex';}
+    else{burger.style.display='none';navmobile.classList.remove('open');}
+  });
+}
 </script>
 </body>
 </html>
