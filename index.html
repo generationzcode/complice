@@ -1,6 +1,517 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ecopatch | Next-Gen Protective Packaging</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --text-main: #ffffff;
+            --text-muted: #b3b3b3;
+            --accent: #d4a373;
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2.5rem 5%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 0 5%;
+        }
+
+        .hero-parallax-container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        .hero-image-wrapper {
+            width: 90%;
+            max-width: 1100px;
+            animation: float 10s ease-in-out infinite;
+            filter: drop-shadow(0 40px 60px rgba(0,0,0,0.6));
+            will-change: transform;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            opacity: 0.85;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 7vw, 6rem);
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.9);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: #d4d4d4;
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.9);
+        }
+
+        /* --- Features Section --- */
+        .features-container {
+            padding: 8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-text {
+            position: relative;
+            z-index: 10;
+            max-width: 500px;
+            background: rgba(5,5,5,0.6);
+            padding: 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+        }
+
+        .feature-point {
+            margin-bottom: 3rem;
+        }
+
+        .feature-point:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-point h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .feature-point p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Parallax Wrappers for Images */
+        .parallax-box {
+            position: absolute;
+            top: 5%;
+            right: 5%;
+            width: 45vw;
+            max-width: 700px;
+            z-index: 1;
+            will-change: transform;
+        }
+
+        .parallax-flat {
+            position: absolute;
+            bottom: 5%;
+            right: 30%;
+            width: 35vw;
+            max-width: 550px;
+            z-index: 2;
+            will-change: transform;
+        }
+
+        .collage-img {
+            width: 100%;
+            filter: drop-shadow(0 30px 50px rgba(0,0,0,0.8));
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .collage-img img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .img-box {
+            animation: floatDelayed 12s ease-in-out infinite;
+        }
+
+        .img-flat {
+            animation: float 9s ease-in-out infinite;
+        }
+
+        .features-container:hover .parallax-box .collage-img {
+            transform: scale(1.02) translate(20px, -10px) rotate(1deg);
+        }
+        .features-container:hover .parallax-flat .collage-img {
+            transform: scale(1.05) translate(-20px, 10px) rotate(-2deg);
+        }
+
+        /* --- Pilot Section --- */
+        .pilot-section {
+            position: relative;
+            padding: 12rem 5% 10rem;
+            display: flex;
+            justify-content: flex-end;
+            overflow: hidden;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .pilot-bg-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+            width: 60vw;
+            height: 80vh;
+            z-index: 1;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        .pilot-bg {
+            width: 100%;
+            height: 100%;
+            background-image: url('img4.jpeg');
+            background-size: contain;
+            background-position: left center;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+            filter: blur(2px) contrast(1.2);
+            mask-image: linear-gradient(to right, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
+        }
+
+        .pilot-content {
+            position: relative;
+            z-index: 2;
+            max-width: 550px;
+            background: rgba(10,10,10,0.85);
+            backdrop-filter: blur(20px);
+            padding: 4rem;
+            border-left: 1px solid rgba(212, 163, 115, 0.3);
+        }
+
+        .pilot-content h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            color: var(--text-main);
+        }
+
+        .pilot-content p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 0.85rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- Animations & JS Reveal --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes floatDelayed {
+            0% { transform: translateY(-10px); }
+            50% { transform: translateY(15px); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay { transition-delay: 0.2s; }
+        .reveal-delay-2 { transition-delay: 0.4s; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .features-container {
+                flex-direction: column;
+                padding-top: 4rem;
+            }
+            .features-text {
+                max-width: 100%;
+                background: transparent;
+                padding: 0;
+                backdrop-filter: none;
+            }
+            .parallax-box, .parallax-flat {
+                position: relative;
+                width: 100%;
+                max-width: 500px;
+                margin: 2rem auto;
+                top: auto; right: auto; bottom: auto; left: auto;
+            }
+            .parallax-box { margin-top: 4rem; }
+            .pilot-section {
+                justify-content: center;
+                padding: 8rem 5%;
+            }
+            .pilot-bg-wrapper {
+                width: 100%;
+                left: 0;
+                opacity: 0.15;
+            }
+            .pilot-bg {
+                mask-image: none;
+                -webkit-mask-image: none;
+            }
+            .pilot-content {
+                padding: 2rem;
+                text-align: center;
+                border-left: none;
+                border-top: 1px solid rgba(212, 163, 115, 0.2);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">ecopatch<span>.</span></div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-parallax-container" id="hero-scroll-parallax">
+            <div class="hero-image-wrapper" id="hero-mouse-parallax">
+                <img src="img1.png" alt="ecopatch Structure">
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <!-- Professional, benefit-driven hero -->
+            <h1 class="reveal">Maximum protection.<br>Minimum footprint.</h1>
+            <p class="reveal reveal-delay">Deployable cushioning that delivers foam-level impact absorption without the bulk. Ships flat and expands instantly to save warehouse space and cut packing time.</p>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features-container">
+        
+        <div class="features-text reveal">
+            <div class="feature-point">
+                <h3>Foam-Level Protection</h3>
+                <p>Layered origami paperboard delivers impact absorption that rivals traditional foam. The structure flexes under weight to protect fragile goods during transit.</p>
+            </div>
+
+            <div class="feature-point">
+                <h3>Flat-Ship & Save Space</h3>
+                <p>Ships completely flat and expands into a 3D cushion in one quick motion. Uses a fraction of the warehouse space required by bulky pre-molded foam.</p>
+            </div>
+
+            <div class="feature-point">
+                <h3>Cost-Effective Customization</h3>
+                <p>Our fold patterns naturally adapt to different shapes and sizes. Get custom-fit protection for everything from small ceramics to heavy electronics without the heavy mold costs of traditional foam.</p>
+            </div>
+        </div>
+
+        <div class="parallax-box" id="parallax-box">
+            <div class="collage-img img-box reveal reveal-delay">
+                <img src="img2.png" alt="ecopatch in Box">
+            </div>
+        </div>
+        
+        <div class="parallax-flat" id="parallax-flat">
+            <div class="collage-img img-flat reveal reveal-delay-2">
+                <img src="img3.png" alt="ecopatch Flat Sheet">
+            </div>
+        </div>
+
+    </section>
+
+    <!-- EARLY ACCESS / PILOT SECTION -->
+    <section id="pilot" class="pilot-section">
+        <div class="pilot-bg-wrapper" id="pilot-parallax">
+            <div class="pilot-bg"></div>
+        </div>
+        
+        <div class="pilot-content reveal">
+            <div class="status-badge">Advanced Development</div>
+            <h2>Select Partner Evaluations</h2>
+            <p>We are moving our folding technology from the lab to automated production.</p>
+            <p>We are opening a few evaluation slots for select e-commerce and industrial partners to test real-world drop performance, pack time, and space savings.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 ecopatch. All rights reserved.</p>
+    </footer>
+
+    <!-- Interactions Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. Scroll Reveal Animation
+            const revealElements = document.querySelectorAll(".reveal");
+            const revealOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add("active");
+                    observer.unobserve(entry.target);
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => revealOnScroll.observe(el));
+
+            // 2. Mouse Parallax Effect (Hero)
+            const heroMouseParallax = document.getElementById("hero-mouse-parallax");
+            document.addEventListener("mousemove", (e) => {
+                if (!heroMouseParallax) return;
+                const xAxis = (window.innerWidth / 2 - e.clientX) / 40;
+                const yAxis = (window.innerHeight / 2 - e.clientY) / 40;
+                heroMouseParallax.style.transform = `translate(${xAxis}px, ${yAxis}px)`;
+            });
+
+            // 3. Scroll Parallax Effect
+            let scrollY = window.scrollY;
+            let ticking = false;
+
+            window.addEventListener("scroll", () => {
+                scrollY = window.scrollY;
+                if (!ticking) {
+                    window.requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            });
+
+            function updateParallax() {
+                const heroScroll = document.getElementById("hero-scroll-parallax");
+                if (heroScroll && scrollY < window.innerHeight) {
+                    heroScroll.style.transform = `translateY(${scrollY * 0.3}px)`;
+                }
+
+                const featuresSection = document.querySelector('.features-container');
+                if (featuresSection) {
+                    const sectionTop = featuresSection.offsetTop;
+                    const offset = scrollY - sectionTop;
+                    
+                    const pBox = document.getElementById("parallax-box");
+                    const pFlat = document.getElementById("parallax-flat");
+                    
+                    if (scrollY > sectionTop - window.innerHeight && scrollY < sectionTop + featuresSection.offsetHeight) {
+                        if (pBox) pBox.style.transform = `translateY(${offset * -0.1}px)`;
+                        if (pFlat) pFlat.style.transform = `translateY(${offset * 0.15}px)`;
+                    }
+                }
+
+                const pilotSection = document.querySelector('.pilot-section');
+                if (pilotSection) {
+                    const pilotTop = pilotSection.offsetTop;
+                    if (scrollY > pilotTop - window.innerHeight) {
+                        const offset = scrollY - pilotTop;
+                        const pBg = document.getElementById("pilot-parallax");
+                        if (pBg) pBg.style.transform = `translateY(calc(-50% + ${offset * 0.2}px))`;
+                    }
+                }
+                
+                ticking = false;
+            }
+            
+            updateParallax();
+        });
+    </script>
+</body>
+</html>
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ecopatch — Science and Innovation</title>
@@ -212,7 +723,6 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
   <p class="work-label">Work across wings</p>
   <div class="work-grid">
 
-    <!-- Sample 1: Paper microfluidic strip -->
     <div class="sample" onclick="location='ip.html'">
       <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
         <rect width="300" height="225" fill="#F0EBE4"/>
@@ -235,19 +745,16 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
       <div class="sample-label">IP · Diagnostics</div>
     </div>
 
-    <!-- Sample 2: Spirulina morphology -->
     <div class="sample" onclick="location='research.html'">
       <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
         <rect width="300" height="225" fill="#EAF0EC"/>
         <text x="150" y="22" font-family="sans-serif" font-size="8" fill="#1C4A34" text-anchor="middle" letter-spacing="0.08em" opacity="0.5">SPIRULINA PLATENSIS — 400×</text>
         <path d="M 40 112 Q 55 82 70 112 Q 85 142 100 112 Q 115 82 130 112 Q 145 142 160 112 Q 175 82 190 112 Q 205 142 220 112 Q 235 82 250 112 Q 265 142 280 112" fill="none" stroke="#1C4A34" stroke-width="4" opacity="0.7" stroke-linecap="round"/>
         <path d="M 40 112 Q 55 82 70 112 Q 85 142 100 112 Q 115 82 130 112 Q 145 142 160 112 Q 175 82 190 112 Q 205 142 220 112 Q 235 82 250 112 Q 265 142 280 112" fill="none" stroke="#1C4A34" stroke-width="2" opacity="0.3" stroke-linecap="round"/>
-        <!-- Scale bar -->
         <line x1="220" y1="190" x2="270" y2="190" stroke="#1C4A34" stroke-width="1.5"/>
         <line x1="220" y1="186" x2="220" y2="194" stroke="#1C4A34" stroke-width="1"/>
         <line x1="270" y1="186" x2="270" y2="194" stroke="#1C4A34" stroke-width="1"/>
         <text x="245" y="203" font-family="sans-serif" font-size="7" fill="#1C4A34" text-anchor="middle" opacity="0.6">50 μm</text>
-        <!-- Annotations -->
         <line x1="148" y1="112" x2="180" y2="75" stroke="#1C4A34" stroke-width="0.5" stroke-dasharray="2 2"/>
         <text x="182" y="72" font-family="sans-serif" font-size="6.5" fill="#1C4A34">trichome</text>
         <line x1="100" y1="112" x2="70" y2="75" stroke="#1C4A34" stroke-width="0.5" stroke-dasharray="2 2"/>
@@ -256,31 +763,29 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
       <div class="sample-label">Research · Food tech</div>
     </div>
 
-    <!-- Sample 3: BTI larvicidal mechanism -->
     <div class="sample" onclick="location='research.html'">
       <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
         <rect width="300" height="225" fill="#EAF0EC"/>
         <text x="150" y="18" font-family="sans-serif" font-size="7" fill="#1C4A34" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">BTI MODE OF ACTION</text>
-        <!-- Spore -->
         <ellipse cx="60" cy="80" rx="22" ry="14" fill="#1C4A34" opacity="0.2" stroke="#1C4A34" stroke-width="0.8"/>
         <text x="60" y="83" font-family="sans-serif" font-size="6.5" fill="#1C4A34" text-anchor="middle">spore</text>
-        <!-- Crystal -->
+        <!-- Crystal 
         <polygon points="110,66 125,80 110,94 95,80" fill="#1C4A34" opacity="0.35" stroke="#1C4A34" stroke-width="0.8"/>
         <text x="110" y="83" font-family="sans-serif" font-size="5.5" fill="white" text-anchor="middle">Cry</text>
-        <!-- Arrow -->
+        <!-- Arrow 
         <line x1="135" y1="80" x2="155" y2="80" stroke="#1C4A34" stroke-width="1" marker-end="url(#arr)"/>
         <defs><marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#1C4A34" stroke-width="1.2"/></marker></defs>
-        <!-- Midgut -->
+        <!-- Midgut 
         <ellipse cx="210" cy="80" rx="55" ry="32" fill="none" stroke="#1C4A34" stroke-width="0.8" opacity="0.4"/>
         <text x="210" y="68" font-family="sans-serif" font-size="6" fill="#1C4A34" text-anchor="middle" opacity="0.6">larval midgut</text>
-        <!-- Pore formation -->
+        <!-- Pore formation 
         <line x1="185" y1="80" x2="235" y2="80" stroke="#1C4A34" stroke-width="3" opacity="0.15"/>
         <circle cx="193" cy="80" r="3" fill="#1C4A34" opacity="0.5"/>
         <circle cx="205" cy="80" r="3" fill="#1C4A34" opacity="0.5"/>
         <circle cx="217" cy="80" r="3" fill="#1C4A34" opacity="0.5"/>
         <circle cx="229" cy="80" r="3" fill="#1C4A34" opacity="0.5"/>
         <text x="210" y="95" font-family="sans-serif" font-size="6" fill="#1C4A34" text-anchor="middle" opacity="0.7">pore formation → lysis</text>
-        <!-- Mosquito larva -->
+        <!-- Mosquito larva 
         <path d="M 100 150 Q 150 130 200 150 Q 220 160 210 175 Q 190 185 150 178 Q 110 185 90 175 Q 80 162 100 150" fill="none" stroke="#1C4A34" stroke-width="1" opacity="0.4"/>
         <text x="150" y="162" font-family="sans-serif" font-size="6.5" fill="#1C4A34" text-anchor="middle" opacity="0.6">Culex sp. larva</text>
         <text x="150" y="200" font-family="sans-serif" font-size="7" fill="#1C4A34" text-anchor="middle" opacity="0.5">Bacillus thuringiensis israelensis</text>
@@ -288,12 +793,12 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
       <div class="sample-label">Research · Agri biotech</div>
     </div>
 
-    <!-- Sample 4: Self-healing cement -->
+    <!-- Sample 4: Self-healing cement 
     <div class="sample" onclick="location='ip.html'">
       <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
         <rect width="300" height="225" fill="#F5F0E8"/>
         <text x="150" y="18" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">SELF-HEALING CEMENT — MECHANISM</text>
-        <!-- Stage 1: crack -->
+        <!-- Stage 1: crack 
         <rect x="20" y="32" width="72" height="80" rx="2" fill="#3D2B00" opacity="0.12" stroke="#3D2B00" stroke-width="0.5"/>
         <text x="56" y="44" font-family="sans-serif" font-size="6" fill="#3D2B00" text-anchor="middle" opacity="0.6">crack forms</text>
         <path d="M 46 50 L 50 70 L 44 90 L 48 108" fill="none" stroke="#3D2B00" stroke-width="1.2" opacity="0.7"/>
@@ -301,40 +806,40 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
         <circle cx="46" cy="78" r="4" fill="#3D2B00" opacity="0.3"/>
         <circle cx="58" cy="95" r="4" fill="#3D2B00" opacity="0.3"/>
         <text x="56" y="122" font-family="sans-serif" font-size="5.5" fill="#3D2B00" text-anchor="middle" opacity="0.5">microcapsules</text>
-        <!-- Arrow -->
+        <!-- Arrow 
         <text x="104" y="76" font-family="sans-serif" font-size="14" fill="#3D2B00" opacity="0.3">→</text>
-        <!-- Stage 2: release -->
+        <!-- Stage 2: release 
         <rect x="120" y="32" width="72" height="80" rx="2" fill="#3D2B00" opacity="0.12" stroke="#3D2B00" stroke-width="0.5"/>
         <text x="156" y="44" font-family="sans-serif" font-size="6" fill="#3D2B00" text-anchor="middle" opacity="0.6">agent releases</text>
         <path d="M 146 50 L 150 70 L 144 90 L 148 108" fill="none" stroke="#3D2B00" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 2"/>
         <circle cx="152" cy="60" r="3" fill="none" stroke="#3D2B00" stroke-width="0.8" stroke-dasharray="1 1"/>
         <path d="M 145 62 Q 155 58 158 68" fill="none" stroke="#3D2B00" stroke-width="0.6" opacity="0.6"/>
         <path d="M 148 80 Q 160 75 162 85" fill="none" stroke="#3D2B00" stroke-width="0.6" opacity="0.6"/>
-        <!-- Arrow -->
+        <!-- Arrow 
         <text x="202" y="76" font-family="sans-serif" font-size="14" fill="#3D2B00" opacity="0.3">→</text>
-        <!-- Stage 3: healed -->
+        <!-- Stage 3: healed 
         <rect x="220" y="32" width="60" height="80" rx="2" fill="#3D2B00" opacity="0.12" stroke="#3D2B00" stroke-width="0.5"/>
         <text x="250" y="44" font-family="sans-serif" font-size="6" fill="#3D2B00" text-anchor="middle" opacity="0.6">CaCO₃ seals</text>
         <path d="M 240 50 L 244 70 L 238 90 L 242 108" fill="none" stroke="#3D2B00" stroke-width="1.2" opacity="0.15"/>
         <ellipse cx="242" cy="72" rx="5" ry="20" fill="#3D2B00" opacity="0.25"/>
-        <!-- Crystal growth annotation -->
+        <!-- Crystal growth annotation 
         <line x1="250" y1="72" x2="270" y2="60" stroke="#3D2B00" stroke-width="0.4" stroke-dasharray="2 2"/>
         <text x="272" y="58" font-family="sans-serif" font-size="5.5" fill="#3D2B00">CaCO₃</text>
-        <!-- Labels -->
+        <!-- Labels 
         <text x="150" y="145" font-family="sans-serif" font-size="7.5" fill="#3D2B00" text-anchor="middle" opacity="0.6">Natural mineralisation pathway</text>
         <text x="150" y="158" font-family="sans-serif" font-size="6.5" fill="#3D2B00" text-anchor="middle" opacity="0.4">Patent application · Materials</text>
       </svg>
       <div class="sample-label">IP · Materials</div>
     </div>
 
-    <!-- Sample 5: DNA data storage -->
+    <!-- Sample 5: DNA data storage 
     <div class="sample" onclick="location='build.html'">
       <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
         <rect width="300" height="225" fill="#EAEEf5"/>
         <text x="150" y="18" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">CHIP-BASED DNA DATA STORAGE</text>
-        <!-- Chip outline -->
+        <!-- Chip outline 
         <rect x="90" y="30" width="120" height="100" rx="4" fill="#162B52" opacity="0.08" stroke="#162B52" stroke-width="0.8"/>
-        <!-- DNA strands inside chip -->
+        <!-- DNA strands inside chip 
         <path d="M 105 50 Q 120 65 105 80 Q 120 95 105 110" fill="none" stroke="#162B52" stroke-width="1.2" opacity="0.6"/>
         <path d="M 115 50 Q 100 65 115 80 Q 100 95 115 110" fill="none" stroke="#162B52" stroke-width="1.2" opacity="0.6"/>
         <line x1="105" y1="52" x2="115" y2="52" stroke="#162B52" stroke-width="0.8" opacity="0.5"/>
@@ -345,19 +850,19 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
         <line x1="108" y1="92" x2="112" y2="92" stroke="#162B52" stroke-width="0.8" opacity="0.5"/>
         <line x1="105" y1="100" x2="115" y2="100" stroke="#162B52" stroke-width="0.8" opacity="0.5"/>
         <line x1="108" y1="108" x2="112" y2="108" stroke="#162B52" stroke-width="0.8" opacity="0.5"/>
-        <!-- Binary -->
+        <!-- Binary 
         <text x="140" y="62" font-family="monospace" font-size="7" fill="#162B52" opacity="0.5">01101</text>
         <text x="140" y="74" font-family="monospace" font-size="7" fill="#162B52" opacity="0.5">10010</text>
         <text x="140" y="86" font-family="monospace" font-size="7" fill="#162B52" opacity="0.5">11001</text>
         <text x="140" y="98" font-family="monospace" font-size="7" fill="#162B52" opacity="0.5">00110</text>
-        <!-- Read/write arrows -->
+        <!-- Read/write arrows 
         <line x1="60" y1="80" x2="88" y2="80" stroke="#162B52" stroke-width="0.8" marker-end="url(#arrb)"/>
         <defs><marker id="arrb" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#162B52" stroke-width="1.2"/></marker></defs>
         <text x="50" y="70" font-family="sans-serif" font-size="6" fill="#162B52" opacity="0.5" text-anchor="middle">WRITE</text>
         <line x1="212" y1="80" x2="240" y2="80" stroke="#162B52" stroke-width="0.8" marker-end="url(#arrb2)"/>
         <defs><marker id="arrb2" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#162B52" stroke-width="1.2"/></marker></defs>
         <text x="252" y="70" font-family="sans-serif" font-size="6" fill="#162B52" opacity="0.5" text-anchor="middle">READ</text>
-        <!-- Chip pins -->
+        <!-- Chip pins 
         <rect x="83" y="48" width="7" height="4" rx="1" fill="#162B52" opacity="0.3"/>
         <rect x="83" y="62" width="7" height="4" rx="1" fill="#162B52" opacity="0.3"/>
         <rect x="83" y="76" width="7" height="4" rx="1" fill="#162B52" opacity="0.3"/>
@@ -371,32 +876,32 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
       <div class="sample-label">Build · BioCompute</div>
     </div>
 
-    <!-- Sample 6: Biofilm disruption -->
+    <!-- Sample 6: Biofilm disruption 
     <div class="sample" onclick="location='ip.html'">
       <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
         <rect width="300" height="225" fill="#F5F0E8"/>
         <text x="150" y="18" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">BIOFILM DISRUPTION MECHANISM</text>
-        <!-- Surface -->
+        <!-- Surface 
         <rect x="20" y="140" width="260" height="20" rx="2" fill="#3D2B00" opacity="0.15"/>
         <text x="150" y="153" font-family="sans-serif" font-size="6" fill="#3D2B00" text-anchor="middle" opacity="0.5">surface</text>
-        <!-- Biofilm layer -->
+        <!-- Biofilm layer 
         <path d="M 20 110 Q 60 100 100 108 Q 140 116 180 105 Q 220 94 260 108 L 260 140 L 20 140 Z" fill="#3D2B00" opacity="0.12"/>
         <path d="M 20 110 Q 60 100 100 108 Q 140 116 180 105 Q 220 94 260 108" fill="none" stroke="#3D2B00" stroke-width="0.8" opacity="0.4"/>
-        <!-- Bacteria in biofilm -->
+        <!-- Bacteria in biofilm 
         <ellipse cx="50" cy="125" rx="8" ry="5" fill="#3D2B00" opacity="0.3"/>
         <ellipse cx="80" cy="120" rx="8" ry="5" fill="#3D2B00" opacity="0.3"/>
         <ellipse cx="115" cy="128" rx="8" ry="5" fill="#3D2B00" opacity="0.3"/>
         <ellipse cx="150" cy="122" rx="8" ry="5" fill="#3D2B00" opacity="0.3"/>
         <ellipse cx="185" cy="118" rx="8" ry="5" fill="#3D2B00" opacity="0.3"/>
         <ellipse cx="220" cy="125" rx="8" ry="5" fill="#3D2B00" opacity="0.3"/>
-        <!-- Natural compound droplets -->
+        <!-- Natural compound droplets 
         <circle cx="80" cy="70" r="12" fill="#3D2B00" opacity="0.15" stroke="#3D2B00" stroke-width="0.6"/>
         <circle cx="120" cy="60" r="8" fill="#3D2B00" opacity="0.15" stroke="#3D2B00" stroke-width="0.6"/>
         <circle cx="160" cy="72" r="10" fill="#3D2B00" opacity="0.15" stroke="#3D2B00" stroke-width="0.6"/>
         <circle cx="200" cy="62" r="9" fill="#3D2B00" opacity="0.15" stroke="#3D2B00" stroke-width="0.6"/>
         <text x="80" y="73" font-family="sans-serif" font-size="6" fill="#3D2B00" text-anchor="middle">nat.</text>
         <text x="80" y="81" font-family="sans-serif" font-size="6" fill="#3D2B00" text-anchor="middle">compound</text>
-        <!-- Disruption arrows -->
+        <!-- Disruption arrows 
         <line x1="80" y1="84" x2="80" y2="108" stroke="#3D2B00" stroke-width="0.7" stroke-dasharray="2 2" opacity="0.5"/>
         <line x1="160" y1="84" x2="160" y2="104" stroke="#3D2B00" stroke-width="0.7" stroke-dasharray="2 2" opacity="0.5"/>
         <text x="150" y="185" font-family="sans-serif" font-size="7" fill="#3D2B00" text-anchor="middle" opacity="0.5">Natural compound — biofilm removal</text>
@@ -405,31 +910,31 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
       <div class="sample-label">IP · Sanitation</div>
     </div>
 
-    <!-- Sample 7: Fermentation process -->
+    <!-- Sample 7: Fermentation process 
     <div class="sample" onclick="location='build.html'">
       <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
         <rect width="300" height="225" fill="#EAEEf5"/>
         <text x="150" y="18" font-family="sans-serif" font-size="7" fill="#162B52" text-anchor="middle" letter-spacing="0.08em" opacity="0.6">FERMENTATION PROCESS — SCHEMATIC</text>
-        <!-- Bioreactor vessel -->
+        <!-- Bioreactor vessel 
         <rect x="110" y="30" width="80" height="110" rx="6" fill="#162B52" opacity="0.08" stroke="#162B52" stroke-width="0.8"/>
         <rect x="115" y="35" width="70" height="15" rx="2" fill="#162B52" opacity="0.15"/>
-        <!-- Impeller -->
+        <!-- Impeller 
         <line x1="150" y1="70" x2="150" y2="120" stroke="#162B52" stroke-width="1.2" opacity="0.4"/>
         <ellipse cx="150" cy="95" rx="20" ry="5" fill="none" stroke="#162B52" stroke-width="0.8" opacity="0.5"/>
         <path d="M 130 95 L 126 88 M 170 95 L 174 88" stroke="#162B52" stroke-width="1" opacity="0.5"/>
-        <!-- Level indicator -->
+        <!-- Level indicator 
         <rect x="115" y="90" width="70" height="45" rx="0" fill="#162B52" opacity="0.06"/>
         <text x="182" y="116" font-family="sans-serif" font-size="6" fill="#162B52" opacity="0.5">pH 7.2</text>
-        <!-- In/out flows -->
+        <!-- In/out flows 
         <line x1="60" y1="55" x2="108" y2="55" stroke="#162B52" stroke-width="1" opacity="0.4" stroke-dasharray="3 2"/>
         <text x="45" y="50" font-family="sans-serif" font-size="6" fill="#162B52" opacity="0.5">nutrient</text>
         <text x="50" y="60" font-family="sans-serif" font-size="6" fill="#162B52" opacity="0.5">feed</text>
         <line x1="192" y1="130" x2="240" y2="130" stroke="#162B52" stroke-width="1" opacity="0.4" stroke-dasharray="3 2"/>
         <text x="242" y="128" font-family="sans-serif" font-size="6" fill="#162B52" opacity="0.5">harvest</text>
-        <!-- Air sparger -->
+        <!-- Air sparger 
         <line x1="150" y1="140" x2="150" y2="160" stroke="#162B52" stroke-width="0.8" opacity="0.3"/>
         <text x="150" y="170" font-family="sans-serif" font-size="6" fill="#162B52" text-anchor="middle" opacity="0.4">air</text>
-        <!-- Growth curve below -->
+        <!-- Growth curve below 
         <line x1="30" y1="210" x2="280" y2="210" stroke="#162B52" stroke-width="0.4" opacity="0.2"/>
         <polyline points="30,208 70,205 110,195 150,180 190,175 230,174 270,173" fill="none" stroke="#162B52" stroke-width="1.2" opacity="0.5"/>
         <text x="155" y="195" font-family="sans-serif" font-size="6" fill="#162B52" opacity="0.4">growth kinetics</text>
@@ -437,11 +942,11 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
       <div class="sample-label">Build · Bioprocessing</div>
     </div>
 
-    <!-- Sample 8: Science communication -->
+    <!-- Sample 8: Science communication 
     <div class="sample" onclick="location='studio.html'">
       <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
         <rect width="300" height="225" fill="#F2EBE7"/>
-        <!-- Document layout simulation -->
+        <!-- Document layout simulation 
         <rect x="30" y="20" width="110" height="185" rx="2" fill="white" opacity="0.7" stroke="#4A2213" stroke-width="0.4"/>
         <rect x="30" y="20" width="110" height="28" rx="2" fill="#4A2213" opacity="0.8"/>
         <text x="85" y="37" font-family="sans-serif" font-size="7" fill="white" text-anchor="middle" opacity="0.8">SCIENCE BRIEF</text>
@@ -458,11 +963,11 @@ footer{background:var(--ink);padding:28px 52px;display:flex;align-items:center;j
         <rect x="44" y="150" width="80" height="3" rx="1" fill="#4A2213" opacity="0.2"/>
         <rect x="44" y="157" width="86" height="3" rx="1" fill="#4A2213" opacity="0.2"/>
         <rect x="44" y="164" width="72" height="3" rx="1" fill="#4A2213" opacity="0.2"/>
-        <!-- Second page -->
+        <!-- Second page 
         <rect x="158" y="20" width="110" height="185" rx="2" fill="white" opacity="0.7" stroke="#4A2213" stroke-width="0.4"/>
         <rect x="166" y="28" width="94" height="4" rx="1" fill="#4A2213" opacity="0.15"/>
         <rect x="166" y="35" width="80" height="4" rx="1" fill="#4A2213" opacity="0.12"/>
-        <!-- Chart -->
+        <!-- Chart 
         <rect x="166" y="44" width="94" height="55" rx="2" fill="#4A2213" opacity="0.05" stroke="#4A2213" stroke-width="0.3"/>
         <polyline points="172,92 188,78 204,65 220,70 236,58 252,54" fill="none" stroke="#4A2213" stroke-width="1.2" opacity="0.6"/>
         <text x="213" y="108" font-family="sans-serif" font-size="5.5" fill="#4A2213" text-anchor="middle" opacity="0.5">data visualization</text>
@@ -542,3 +1047,4 @@ window.addEventListener('resize',()=>{
 </script>
 </body>
 </html>
+-->
